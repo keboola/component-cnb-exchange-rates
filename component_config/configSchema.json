@@ -1,17 +1,15 @@
 {
   "type": "object",
-  "title": "extractor configuration",
+  "title": "Extractor configuration",
   "required": [
-    "print_hello"
+    "current_as_today"
   ],
   "properties": {
-    "print_hello": {
+    "current_as_today": {
       "type": "boolean",
-      "title": "Print Hello"
-    },
-    "debug": {
-      "type": "boolean",
-      "title": "Debug"
+      "format": "checkbox",
+      "title": "Current rates as today's rates",
+      "propertyOrder": 100
     }
   }
 }

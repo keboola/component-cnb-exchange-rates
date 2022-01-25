@@ -4,7 +4,10 @@ Template Component main class.
 '''
 import csv
 import logging
-from datetime import datetime
+from datetime import datetime, date, timedelta
+import pytz
+import time
+import requests
 
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
@@ -38,39 +41,49 @@ class Component(ComponentBase):
         Main execution code
         '''
 
-        # ####### EXAMPLE TO REMOVE
-        # check for missing configuration parameters
-        self.validate_configuration_parameters(REQUIRED_PARAMETERS)
-        self.validate_image_parameters(REQUIRED_IMAGE_PARS)
-        params = self.configuration.parameters
-        # Access parameters in data/config.json
-        if params.get(KEY_PRINT_HELLO):
-            logging.info("Hello World")
+        header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
+        base_url = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt'
 
-        # get last state data/in/state.json from previous run
-        previous_state = self.get_state_file()
-        logging.info(previous_state.get('some_state_parameter'))
+        status_code = 0
+        kurzy = []
+
+        # deset pokusů o stažení
+        for _ in range(10):
+            r = requests.get(base_url)
+            status_code = r.status_code
+            if status_code == 200:
+                datum = r.text.split('\n')[0].split('#')[0].strip().split('.')
+                datum_API = datum[2] + '-' + datum[1] + '-' + datum[0]
+                today = datetime.now(pytz.timezone('Europe/Prague'))
+                today_str = today.strftime('%Y') + '-' + today.strftime('%m') + '-' + today.strftime('%d')
+                for line in r.text.split('\n')[2:]:
+                    line_split = line.split('|')
+                    if len(line_split) == 5:
+                        kurzy.append([datum_API] + line_split[:4] + [line_split[4].replace(',', '.')])
+                        kurzy.append([today_str] + line_split[:4] + [line_split[4].replace(',', '.')])
+                break
+            else:
+                sleep(2)
 
         # Create output table (Tabledefinition - just metadata)
-        table = self.create_out_table_definition('output.csv', incremental=True, primary_key=['timestamp'])
-
-        # get file path of the table (data/out/tables/Features.csv)
+        table = self.create_out_table_definition('output.csv', incremental=True, primary_key=['date', 'code'])
         out_table_path = table.full_path
-        logging.info(out_table_path)
 
-        # DO whatever and save into out_table_path
-        with open(table.full_path, mode='wt', encoding='utf-8', newline='') as out_file:
-            writer = csv.DictWriter(out_file, fieldnames=['timestamp'])
-            writer.writeheader()
-            writer.writerow({"timestamp": datetime.now().isoformat()})
+        # ověřuji délku pole kurzů, pokud by se někdy v budoucnu např. změnila struktura API
+        if status_code == 200 and len(kurzy) > 0:
+            with open(out_table_path, mode='wt', encoding='utf-8', newline='') as out_file:
+                write = csv.writer(out_file)
+                #write = csv.DictWriter(out_file, fieldnames=header, lineterminator='\n', delimiter=',')
+                write.writerow(header)
+                write.writerows(kurzy)
+        else:
+            raise Exception("Data were not fetched!")
 
         # Save table manifest (output.csv.manifest) from the tabledefinition
         self.write_manifest(table)
 
         # Write new state - will be available next run
         self.write_state_file({"some_state_parameter": "value"})
-
-        # ####### EXAMPLE TO REMOVE END
 
 
 """
