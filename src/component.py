@@ -4,7 +4,8 @@ Template Component main class.
 '''
 import csv
 import logging
-from datetime import datetime, date, timedelta
+from datetime import datetime
+# from datetime import datetime, date, timedelta
 import pytz
 import time
 import requests
@@ -42,7 +43,8 @@ class Component(ComponentBase):
         '''
 
         header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
-        base_url = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt'
+        base_url = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/' \
+                   'denni_kurz.txt'
 
         status_code = 0
         kurzy = []
@@ -63,7 +65,7 @@ class Component(ComponentBase):
                         kurzy.append([today_str] + line_split[:4] + [line_split[4].replace(',', '.')])
                 break
             else:
-                sleep(2)
+                time.sleep(2)
 
         # Create output table (Tabledefinition - just metadata)
         table = self.create_out_table_definition('output.csv', incremental=True, primary_key=['date', 'code'])
@@ -73,7 +75,7 @@ class Component(ComponentBase):
         if status_code == 200 and len(kurzy) > 0:
             with open(out_table_path, mode='wt', encoding='utf-8', newline='') as out_file:
                 write = csv.writer(out_file)
-                #write = csv.DictWriter(out_file, fieldnames=header, lineterminator='\n', delimiter=',')
+                # write = csv.DictWriter(out_file, fieldnames=header, lineterminator='\n', delimiter=',')
                 write.writerow(header)
                 write.writerows(kurzy)
         else:
