@@ -42,6 +42,8 @@ class Component(ComponentBase):
         Main execution code
         '''
 
+        print('Running...')
+
         header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
         base_url = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/' \
                    'denni_kurz.txt'
@@ -50,7 +52,7 @@ class Component(ComponentBase):
         kurzy = []
 
         # deset pokusů o stažení
-        for _ in range(10):
+        for i in range(10):
             r = requests.get(base_url)
             status_code = r.status_code
             if status_code == 200:
@@ -63,6 +65,8 @@ class Component(ComponentBase):
                     if len(line_split) == 5:
                         kurzy.append([datum_API] + line_split[:4] + [line_split[4].replace(',', '.')])
                         kurzy.append([today_str] + line_split[:4] + [line_split[4].replace(',', '.')])
+                print('Connected to www.cnb.cz successfully.')
+                print('Attemp nmr. ' + str(i+1))
                 break
             else:
                 time.sleep(2)
@@ -70,6 +74,7 @@ class Component(ComponentBase):
         # Create output table (Tabledefinition - just metadata)
         table = self.create_out_table_definition('output.csv', incremental=True, primary_key=['date', 'code'])
         out_table_path = table.full_path
+        print(out_table_path)
 
         # ověřuji délku pole kurzů, pokud by se někdy v budoucnu např. změnila struktura API
         if status_code == 200 and len(kurzy) > 0:
