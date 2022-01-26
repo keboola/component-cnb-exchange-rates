@@ -20,10 +20,33 @@
       "enum": [
         "today",
         "today + yesterday",
-        "week"
+        "week",
+        "custom dates range"
       ],
       "propertyOrder": 200,
       "default": "today + yesterday"
+    },
+    "dependent_date_from": {
+      "title": "Date from",
+      "type": "string",
+      "format": "date",
+      "options": {
+        "dependencies": {
+          "dates": "custom dates range"
+        }
+      },
+      "propertyOrder": 300
+    },
+    "dependent_date_to": {
+      "title": "Date to",
+      "type": "string",
+      "format": "date",
+      "options": {
+        "dependencies": {
+          "dates": "custom dates range"
+        }
+      },
+      "propertyOrder": 400
     }
   }
 }
