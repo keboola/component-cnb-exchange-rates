@@ -51,8 +51,8 @@ class Component(ComponentBase):
         print(params)
 
         # output file definition
-        out_file_name = self.configuration.config_data["storage"]["output"]["tables"][0]["destination"]
-        kbc_out_path = self.configuration.config_data["storage"]["output"]["tables"][0]["source"]
+        kbc_out_path = self.configuration.config_data["storage"]["output"]["tables"][0]["destination"]
+        out_file_name = self.configuration.config_data["storage"]["output"]["tables"][0]["source"]
         out_incremental = self.configuration.config_data["storage"]["output"]["tables"][0]["incremental"]
 
         print("out table definition: ", out_file_name, kbc_out_path, out_incremental)
