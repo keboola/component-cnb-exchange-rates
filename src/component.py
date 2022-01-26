@@ -12,7 +12,6 @@ import requests
 
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
-from keboola.component import CommonInterface
 
 # configuration variables
 KEY_API_TOKEN = '#api_token'
@@ -45,7 +44,7 @@ class Component(ComponentBase):
 
         print('Running...')
 
-        print('configuration.tables_output_mapping type:',type(self.configuration.tables_output_mapping))
+        print('configuration.tables_output_mapping type:', type(self.configuration.tables_output_mapping))
         print(self.configuration.tables_output_mapping)
         print('configuration.config_data type:', type(self.configuration.config_data))
         print(self.configuration.config_data)
