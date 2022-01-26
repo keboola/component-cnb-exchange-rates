@@ -47,15 +47,17 @@ class Component(ComponentBase):
         # config.json parameters
         params = self.configuration.parameters
 
+        out_table_name = params['file_name']
+        out_storage_path = 'in.c-cnb-extractor.' + out_table_name
+        out_incremental = params['incremental']
+
         print("params:")
         print(params)
 
-        # output file definition
-        kbc_out_path = self.configuration.config_data["storage"]["output"]["tables"][0]["destination"]
-        out_file_name = self.configuration.config_data["storage"]["output"]["tables"][0]["source"]
-        out_incremental = self.configuration.config_data["storage"]["output"]["tables"][0]["incremental"]
-
-        print("out table definition: ", out_file_name, kbc_out_path, out_incremental)
+        # output file definition - use if output mapping is enabled
+        # kbc_out_path = self.configuration.config_data["storage"]["output"]["tables"][0]["destination"]
+        # out_file_name = self.configuration.config_data["storage"]["output"]["tables"][0]["source"]
+        # out_incremental = self.configuration.config_data["storage"]["output"]["tables"][0]["incremental"]
 
         header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
         base_url = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/' \
@@ -85,8 +87,8 @@ class Component(ComponentBase):
                 time.sleep(2)
 
         # Create output table (Tabledefinition - just metadata)
-        table = self.create_out_table_definition(name=out_file_name,
-                                                 destination=kbc_out_path,
+        table = self.create_out_table_definition(name='output.csv',
+                                                 destination=out_storage_path,
                                                  incremental=out_incremental,
                                                  primary_key=['date', 'code'])
 

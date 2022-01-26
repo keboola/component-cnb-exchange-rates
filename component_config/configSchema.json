@@ -2,10 +2,28 @@
   "type": "object",
   "title": "Extractor configuration",
   "required": [
+    "file_name",
+    "incremental",
     "current_as_today",
     "dates"
   ],
   "properties": {
+    "file_name": {
+      "type": "string",
+      "title": "Table name",
+      "description": "Your table will be located under in.c-cnb-extractor.xxx",
+      "minLength": 3,
+      "default": "xxx",
+      "propertyOrder": 50
+    },
+    "incremental": {
+      "type": "boolean",
+      "format": "checkbox",
+      "title": "Incremental load",
+      "description": "By checking this box new extracted data will be appended to the output table based on 'date' and 'code' primary key",
+      "default": false,
+      "propertyOrder": 100
+    },
     "current_as_today": {
       "type": "boolean",
       "format": "checkbox",
