@@ -44,10 +44,18 @@ class Component(ComponentBase):
 
         print('Running...')
 
-        print('configuration.tables_output_mapping type:', type(self.configuration.tables_output_mapping))
-        print(self.configuration.tables_output_mapping)
-        print('configuration.config_data type:', type(self.configuration.config_data))
-        print(self.configuration.config_data)
+        # config.json parameters
+        params = self.configuration.parameters
+
+        print("params:")
+        print(params)
+
+        # output file definition
+        out_file_name = self.configuration.config_data["storage"]["output"]["tables"][0]["destination"]
+        kbc_out_path = self.configuration.config_data["storage"]["output"]["tables"][0]["source"]
+        out_incremental = self.configuration.config_data["storage"]["output"]["tables"][0]["incremental"]
+
+        print("out table definition: ", out_file_name, kbc_out_path, out_incremental)
 
         header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
         base_url = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/' \
@@ -77,7 +85,11 @@ class Component(ComponentBase):
                 time.sleep(2)
 
         # Create output table (Tabledefinition - just metadata)
-        table = self.create_out_table_definition('output.csv', incremental=True, primary_key=['date', 'code'])
+        table = self.create_out_table_definition(name=out_file_name,
+                                                 destination=kbc_out_path,
+                                                 incremental=out_incremental,
+                                                 primary_key=['date', 'code'])
+
         out_table_path = table.full_path
         print(out_table_path)
 
@@ -85,7 +97,6 @@ class Component(ComponentBase):
         if status_code == 200 and len(kurzy) > 0:
             with open(out_table_path, mode='wt', encoding='utf-8', newline='') as out_file:
                 write = csv.writer(out_file)
-                # write = csv.DictWriter(out_file, fieldnames=header, lineterminator='\n', delimiter=',')
                 write.writerow(header)
                 write.writerows(kurzy)
         else:
