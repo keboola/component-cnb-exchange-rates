@@ -14,35 +14,35 @@
       "description": "Your table will be located under in.c-cnb-extractor.xxx",
       "minLength": 3,
       "default": "xxx",
-      "propertyOrder": 50
+      "propertyOrder": 100
     },
     "incremental": {
       "type": "boolean",
       "format": "checkbox",
       "title": "Incremental load",
-      "description": "By checking this box new extracted data will be appended to the output table based on 'date' and 'code' primary key",
-      "default": false,
-      "propertyOrder": 100
+      "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key",
+      "default": true,
+      "propertyOrder": 200
     },
     "current_as_today": {
       "type": "boolean",
       "format": "checkbox",
       "title": "Current rates as today's rates",
-      "description": "Checking this box is recommended",
+      "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated the next day.",
       "default": true,
-      "propertyOrder": 100
+      "propertyOrder": 300
     },
     "dates": {
       "type": "string",
-      "title": "Dates",
+      "title": "Range of dates",
       "enum": [
-        "today",
-        "today + yesterday",
-        "week",
-        "custom dates range"
+        "Current day (currently declared rates)",
+        "Current day and yesterday",
+        "Week",
+        "Custom date range"
       ],
-      "propertyOrder": 200,
-      "default": "today + yesterday"
+      "default": "Current day and yesterday",
+      "propertyOrder": 400
     },
     "dependent_date_from": {
       "title": "Date from",
@@ -50,10 +50,10 @@
       "format": "date",
       "options": {
         "dependencies": {
-          "dates": "custom dates range"
+          "dates": "Custom date range"
         }
       },
-      "propertyOrder": 300
+      "propertyOrder": 500
     },
     "dependent_date_to": {
       "title": "Date to",
@@ -61,10 +61,16 @@
       "format": "date",
       "options": {
         "dependencies": {
-          "dates": "custom dates range"
+          "dates": "Custom date range"
         }
       },
-      "propertyOrder": 400
+      "propertyOrder": 550
+    },
+    "favorite_color": {
+      "type": "string",
+      "format": "color",
+      "title": "Pick your favourite color (just for fun)",
+      "default": "#2b00ff"
     }
   }
 }

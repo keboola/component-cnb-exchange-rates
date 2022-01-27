@@ -42,7 +42,7 @@ class Component(ComponentBase):
         Main execution code
         '''
 
-        print('Running...')
+        logging.info('Running...')
 
         # config.json parameters
         params = self.configuration.parameters
@@ -51,8 +51,8 @@ class Component(ComponentBase):
         out_storage_path = 'in.c-cnb-extractor.' + out_table_name
         out_incremental = params['incremental']
 
-        print("params:")
-        print(params)
+        logging.info("params:")
+        logging.info(params)
 
         # output file definition - use if output mapping is enabled
         # kbc_out_path = self.configuration.config_data["storage"]["output"]["tables"][0]["destination"]
@@ -93,7 +93,7 @@ class Component(ComponentBase):
                                                  primary_key=['date', 'code'])
 
         out_table_path = table.full_path
-        print(out_table_path)
+        logging.info(out_table_path)
 
         # ověřuji délku pole kurzů, pokud by se někdy v budoucnu např. změnila struktura API
         if status_code == 200 and len(kurzy) > 0:
