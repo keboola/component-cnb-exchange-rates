@@ -28,9 +28,9 @@
       "type": "boolean",
       "format": "checkbox",
       "title": "Current rates as today's rates",
-      "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated the next day.",
+      "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated the next day. If 'Current day (currently declared rates)' is selected in the 'Range of dates' this option will be ignored",
       "default": true,
-      "propertyOrder": 300
+      "propertyOrder": 400
     },
     "dates": {
       "type": "string",
@@ -42,7 +42,7 @@
         "Custom date range"
       ],
       "default": "Current day and yesterday",
-      "propertyOrder": 400
+      "propertyOrder": 300
     },
     "dependent_date_from": {
       "title": "Date from",

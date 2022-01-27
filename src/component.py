@@ -4,7 +4,7 @@ Template Component main class.
 '''
 import csv
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 # from datetime import datetime, date, timedelta
 import pytz
 import time
@@ -48,6 +48,29 @@ class Component(ComponentBase):
             min_colours[(rd + gd + bd)] = name
         return min_colours[min(min_colours.keys())]
 
+    def call_cnb_api(self, base_url, dates, today, curr_flag):
+        rates = []
+        for d in dates:
+            date_param = d.strftime('%d') + '.' + d.strftime('%m') + '.' + d.strftime('%Y')
+            for _ in range(10):
+                r = requests.get(base_url + '?date=' + date_param)
+                status_code = r.status_code
+                if status_code == 200:
+                    if d == today and curr_flag == False:
+                        parse_date = r.text[:r.text.find('#')].strip().split('.')
+                        temp_date = parse_date[2] + '-' + parse_date[1] + '-' + parse_date[0]
+                    else:
+                        temp_date = d.strftime('%Y-%m-%d')
+
+                    for line in r.text.split('\n')[2:]:
+                        line_split = line.split('|')
+                        if len(line_split) == 5:
+                            rates.append([temp_date] + line_split[:4] + [line_split[4].replace(',', '.')])
+                    break
+                else:
+                    time.sleep(1)
+        return rates
+
     def run(self):
         '''
         Main execution code
@@ -68,31 +91,32 @@ class Component(ComponentBase):
         # out_incremental = self.configuration.config_data["storage"]["output"]["tables"][0]["incremental"]
 
         header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
-        base_url = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/' \
-                   'denni_kurz.txt'
+        base_url = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/' \
+                   'kurzy-devizoveho-trhu/denni_kurz.txt'
 
-        status_code = 0
-        kurzy = []
+        dates_list = []
+        today = datetime.now(pytz.timezone('Europe/Prague')).date()
 
-        # deset pokusů o stažení
-        for i in range(10):
-            r = requests.get(base_url)
-            status_code = r.status_code
-            if status_code == 200:
-                datum = r.text.split('\n')[0].split('#')[0].strip().split('.')
-                datum_API = datum[2] + '-' + datum[1] + '-' + datum[0]
-                today = datetime.now(pytz.timezone('Europe/Prague'))
-                today_str = today.strftime('%Y') + '-' + today.strftime('%m') + '-' + today.strftime('%d')
-                for line in r.text.split('\n')[2:]:
-                    line_split = line.split('|')
-                    if len(line_split) == 5:
-                        kurzy.append([datum_API] + line_split[:4] + [line_split[4].replace(',', '.')])
-                        kurzy.append([today_str] + line_split[:4] + [line_split[4].replace(',', '.')])
-                print('Connected to www.cnb.cz successfully.')
-                print('Attemp nmr. ' + str(i+1))
-                break
+        if params['dates'] == "Current day (currently declared rates)":
+            dates_list.append(today)
+        elif params['dates'] == "Current day and yesterday":
+            for i in range(2):
+                dates_list.append(today - timedelta(days=i))
+        elif params['dates'] == "Week":
+            for i in range(7):
+                dates_list.append(today - timedelta(days=i))
+        elif params['dates'] == "Custom date range":
+            date_from = datetime.strptime(params['dependent_date_from'], '%Y-%m-%d').date()
+            date_to = datetime.strptime(params['dependent_date_to'], '%Y-%m-%d').date()
+            if date_from == "" or date_to == "":
+                logging.error('Dates not specified for custom date range!')
+            elif date_from >= date_to:
+                logging.error('Date from higher or equal to date to!')
             else:
-                time.sleep(2)
+                for i in range((date_to - date_from).days + 1):
+                    dates_list.append(date_to - timedelta(days=i))
+
+        kurzy = self.call_cnb_api(base_url, dates_list, today, params['current_as_today'])
 
         # Create output table (Tabledefinition - just metadata)
         table = self.create_out_table_definition(name='output.csv',
@@ -100,12 +124,9 @@ class Component(ComponentBase):
                                                  incremental=out_incremental,
                                                  primary_key=['date', 'code'])
 
-        out_table_path = table.full_path
-        logging.info(out_table_path)
-
         # ověřuji délku pole kurzů, pokud by se někdy v budoucnu např. změnila struktura API
-        if status_code == 200 and len(kurzy) > 0:
-            with open(out_table_path, mode='wt', encoding='utf-8', newline='') as out_file:
+        if len(kurzy) > 0:
+            with open(table.full_path, mode='wt', encoding='utf-8', newline='') as out_file:
                 write = csv.writer(out_file)
                 write.writerow(header)
                 write.writerows(kurzy)
