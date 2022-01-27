@@ -9,6 +9,7 @@ from datetime import datetime
 import pytz
 import time
 import requests
+import webcolors
 
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
@@ -37,6 +38,16 @@ class Component(ComponentBase):
     def __init__(self):
         super().__init__()
 
+    def closest_colour(self, requested_colour):
+        min_colours = {}
+        for key, name in webcolors.CSS3_HEX_TO_NAMES.items():
+            r_c, g_c, b_c = webcolors.hex_to_rgb(key)
+            rd = (r_c - requested_colour[0]) ** 2
+            gd = (g_c - requested_colour[1]) ** 2
+            bd = (b_c - requested_colour[2]) ** 2
+            min_colours[(rd + gd + bd)] = name
+        return min_colours[min(min_colours.keys())]
+
     def run(self):
         '''
         Main execution code
@@ -50,9 +61,6 @@ class Component(ComponentBase):
         out_table_name = params['file_name']
         out_storage_path = 'in.c-cnb-extractor.' + out_table_name
         out_incremental = params['incremental']
-
-        logging.info("params:")
-        logging.info(params)
 
         # output file definition - use if output mapping is enabled
         # kbc_out_path = self.configuration.config_data["storage"]["output"]["tables"][0]["destination"]
@@ -109,6 +117,11 @@ class Component(ComponentBase):
 
         # Write new state - will be available next run
         self.write_state_file({"some_state_parameter": "value"})
+
+        # printing favourite color
+        hex_color = params['favorite_color'].lstrip('#')
+        rgb_color = tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
+        logging.warning('Your favourite color is: ' + self.closest_colour(rgb_color))
 
 
 """
