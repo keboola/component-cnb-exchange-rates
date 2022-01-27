@@ -56,7 +56,7 @@ class Component(ComponentBase):
                 r = requests.get(base_url + '?date=' + date_param)
                 status_code = r.status_code
                 if status_code == 200:
-                    if d == today and curr_flag == False:
+                    if d == today and curr_flag is False:
                         parse_date = r.text[:r.text.find('#')].strip().split('.')
                         temp_date = parse_date[2] + '-' + parse_date[1] + '-' + parse_date[0]
                     else:
