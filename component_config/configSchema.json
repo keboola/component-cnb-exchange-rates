@@ -11,7 +11,7 @@
     "file_name": {
       "type": "string",
       "title": "Table name",
-      "description": "Your table will be located under in.c-cnb-extractor.xxx",
+      "description": "Your data will be extracted to in.c-cnb-extractor.xxx",
       "minLength": 3,
       "default": "xxx",
       "propertyOrder": 100
@@ -20,7 +20,7 @@
       "type": "boolean",
       "format": "checkbox",
       "title": "Incremental load",
-      "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key",
+      "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key. Please note that if you go from incremental load to non-incremental your previously downloaded date will be overwritten!",
       "default": true,
       "propertyOrder": 200
     },
@@ -30,7 +30,7 @@
       "title": "Current rates as today's rates",
       "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated the next day. If 'Current day (currently declared rates)' is selected in the 'Range of dates' this option will be ignored",
       "default": true,
-      "propertyOrder": 400
+      "propertyOrder": 600
     },
     "dates": {
       "type": "string",
@@ -66,11 +66,18 @@
       },
       "propertyOrder": 550
     },
+    "dafault_timezone": {
+      "title": "Default timezone",
+      "type": "string",
+      "template": "Europe/Prague",
+      "propertyOrder": 700
+    },
     "favorite_color": {
       "type": "string",
       "format": "color",
       "title": "Pick your favourite color (just for fun)",
-      "default": "#2b00ff"
+      "default": "#2b00ff",
+      "propertyOrder": 1000
     }
   }
 }
