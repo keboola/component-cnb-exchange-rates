@@ -110,14 +110,19 @@ class Component(ComponentBase):
                 date_from = datetime.strptime(params['dependent_date_from'], '%Y-%m-%d').date()
                 date_to = datetime.strptime(params['dependent_date_to'], '%Y-%m-%d').date()
             except ValueError:
-                logging.critical('Dates not specified correctly for custom date range!')
-                raise UserException("User error")
+                raise UserException('Dates not specified correctly for custom date range!')
+
             if date_from >= date_to:
-                logging.critical('Date from higher or equal to date to!')
-                raise UserException("User error")
+                raise UserException('\"Date from\" is higher or equal to date to!')
+            elif date_from > today:
+                raise UserException('\"Date from\" is in the future!')
             else:
-                for i in range((date_to - date_from).days + 1):
-                    dates_list.append(date_to - timedelta(days=i))
+                for i in range((min(date_to, today) - date_from).days + 1):
+                    dates_list.append(date_from + timedelta(days=i))
+
+            if date_to > today:
+                logging.warning('For \"Date to\" you selected a day in the future! Therefore, '
+                              '\"Date to\" was set to today\'s day')
 
         kurzy = self.call_cnb_api(base_url, dates_list, today, params['current_as_today'])
 
@@ -145,7 +150,7 @@ class Component(ComponentBase):
         # printing favourite color
         hex_color = params['favorite_color'].lstrip('#')
         rgb_color = tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
-        logging.warning('Your favourite color is: ' + self.closest_colour(rgb_color))
+        logging.warning('Your job ran successfuly and your favourite color is: ' + self.closest_colour(rgb_color))
 
 
 """

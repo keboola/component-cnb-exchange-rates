@@ -11,7 +11,7 @@
     "file_name": {
       "type": "string",
       "title": "Table name",
-      "description": "Your data will be extracted to in.c-cnb-extractor.xxx",
+      "description": "Your data will be extracted to in.c-cnb-extractor.{your table name}",
       "minLength": 3,
       "default": "xxx",
       "propertyOrder": 100
@@ -49,6 +49,7 @@
       "type": "string",
       "format": "date",
       "options": {
+        "flatpickr": {},
         "dependencies": {
           "dates": "Custom date range"
         }
@@ -60,6 +61,7 @@
       "type": "string",
       "format": "date",
       "options": {
+        "flatpickr": {},
         "dependencies": {
           "dates": "Custom date range"
         }
