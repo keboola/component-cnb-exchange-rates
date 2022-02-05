@@ -122,7 +122,7 @@ class Component(ComponentBase):
 
             if date_to > today:
                 logging.warning('For \"Date to\" you selected a day in the future! Therefore, '
-                              '\"Date to\" was set to today\'s day')
+                                '\"Date to\" was set to today\'s day')
 
         kurzy = self.call_cnb_api(base_url, dates_list, today, params['current_as_today'])
 
