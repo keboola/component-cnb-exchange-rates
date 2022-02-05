@@ -1,0 +1,36 @@
+{
+  "parameters": {
+    "file_name": "xxx",
+    "incremental": true,
+    "current_as_today": false,
+    "dates": "Custom date range",
+    "dependent_date_from": "2022-02-01",
+    "dependent_date_to": "2022-02-08",
+    "favorite_color": "#2b00ff"
+  },
+  "storage": {
+    "output": {
+      "tables": [
+        {
+          "destination": "in.c-test-01.output",
+          "source": "output.csv",
+          "incremental": false,
+          "primary_key": [],
+          "columns": [],
+          "distribution_key": [],
+          "delete_where_values": [],
+          "delete_where_operator": "eq",
+          "delimiter": ",",
+          "enclosure": "",
+          "metadata": [],
+          "column_metadata": []
+        }
+      ],
+      "files": []
+    }
+  },
+  "shared_code_row_ids": [],
+  "image_parameters": {},
+  "action": "run",
+  "authorization": {}
+}
