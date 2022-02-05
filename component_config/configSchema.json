@@ -4,8 +4,9 @@
   "required": [
     "file_name",
     "incremental",
+    "dates",
     "current_as_today",
-    "dates"
+    "currency"
   ],
   "properties": {
     "file_name": {
@@ -23,14 +24,6 @@
       "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key. Please note that if you go later from incremental load to non-incremental your previously downloaded data will be overwritten!",
       "default": true,
       "propertyOrder": 200
-    },
-    "current_as_today": {
-      "type": "boolean",
-      "format": "checkbox",
-      "title": "Current rates as today's rates",
-      "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates for current day are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated on the next run.",
-      "default": true,
-      "propertyOrder": 600
     },
     "dates": {
       "type": "string",
@@ -68,11 +61,392 @@
       },
       "propertyOrder": 550
     },
+    "current_as_today": {
+      "type": "boolean",
+      "format": "checkbox",
+      "title": "Current rates as today's rates",
+      "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates for current day are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated on the next run.",
+      "default": true,
+      "propertyOrder": 600
+    },
+    "currency": {
+      "title": "Select currency",
+      "type": "string",
+      "enum": [
+        "All",
+        "Selected currencies"
+      ],
+      "default": "All",
+      "propertyOrder": 700
+    },
+    "dependent_AUD": {
+      "title": "Austrálie (dolar)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 701
+    },
+    "dependent_BRL": {
+      "title": "Brazílie (real)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 702
+    },
+    "dependent_BGN": {
+      "title": "Bulharsko (lev)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 703
+    },
+    "dependent_CNY": {
+      "title": "Čína (žen-min-pi)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 704
+    },
+    "dependent_DKK": {
+      "title": "Dánsko (koruna)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 705
+    },
+    "dependent_EUR": {
+      "title": "EMU (euro)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 706
+    },
+    "dependent_PHP": {
+      "title": "Filipíny (peso)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 707
+    },
+    "dependent_HKD": {
+      "title": "Hongkong (dolar)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 708
+    },
+    "dependent_HRK": {
+      "title": "Chorvatsko (kuna)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 709
+    },
+    "dependent_INR": {
+      "title": "Indie (rupie)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 710
+    },
+    "dependent_IDR": {
+      "title": "Indonesie (rupie)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 711
+    },
+    "dependent_ISK": {
+      "title": "Island (koruna)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 712
+    },
+    "dependent_ILS": {
+      "title": "Izrael (nový šekel)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 713
+    },
+    "dependent_JPY": {
+      "title": "Japonsko (jen)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 714
+    },
+    "dependent_ZAR": {
+      "title": "Jižní Afrika (rand)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 715
+    },
+    "dependent_CAD": {
+      "title": "Kanada (dolar)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 716
+    },
+    "dependent_KRW": {
+      "title": "Korejská republika (won)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 717
+    },
+    "dependent_HUF": {
+      "title": "Maďarsko (forint)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 718
+    },
+    "dependent_MYR": {
+      "title": "Malajsie (ringgit)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 719
+    },
+    "dependent_MXN": {
+      "title": "Mexiko (peso)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 720
+    },
+    "dependent_XDR": {
+      "title": "MMF (ZPČ)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 721
+    },
+    "dependent_NOK": {
+      "title": "Norsko (koruna)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 722
+    },
+    "dependent_NZD": {
+      "title": "Nový Zéland (dolar)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 723
+    },
+    "dependent_PLN": {
+      "title": "Polsko (zlotý)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 724
+    },
+    "dependent_RON": {
+      "title": "Rumunsko (leu)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 725
+    },
+    "dependent_RUB": {
+      "title": "Rusko (rubl)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 726
+    },
+    "dependent_SGD": {
+      "title": "Singapur (dolar)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 727
+    },
+    "dependent_SEK": {
+      "title": "Švédsko (koruna)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 728
+    },
+    "dependent_CHF": {
+      "title": "Švýcarsko (frank)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 729
+    },
+    "dependent_THB": {
+      "title": "Thajsko (baht)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 730
+    },
+    "dependent_TRY": {
+      "title": "Turecko (lira)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 731
+    },
+    "dependent_USD": {
+      "title": "USA (dolar)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 732
+    },
+    "dependent_GBP": {
+      "title": "Velká Británie (libra)",
+      "type": "boolean",
+      "format": "checkbox",
+      "options": {
+        "dependencies": {
+          "currency": "Selected currencies"
+        }
+      },
+      "propertyOrder": 733
+    },
     "dafault_timezone": {
       "title": "Default timezone",
       "type": "string",
       "template": "Europe/Prague",
-      "propertyOrder": 700
+      "propertyOrder": 800
     },
     "favorite_color": {
       "type": "string",

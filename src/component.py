@@ -48,7 +48,7 @@ class Component(ComponentBase):
             min_colours[(rd + gd + bd)] = name
         return min_colours[min(min_colours.keys())]
 
-    def call_cnb_api(self, base_url, dates, today, curr_flag):
+    def call_cnb_api(self, base_url, dates, today, curr_flag, currency):
         rates = []
         for d in dates:
             date_param = d.strftime('%d') + '.' + d.strftime('%m') + '.' + d.strftime('%Y')
@@ -64,7 +64,9 @@ class Component(ComponentBase):
 
                     for line in r.text.split('\n')[2:]:
                         line_split = line.split('|')
-                        if len(line_split) == 5:
+                        if len(line_split) == 5 and currency is None:
+                            rates.append([temp_date] + line_split[:4] + [line_split[4].replace(',', '.')])
+                        elif len(line_split) == 5 and line_split[3] in currency:
                             rates.append([temp_date] + line_split[:4] + [line_split[4].replace(',', '.')])
                     break
                 else:
@@ -94,6 +96,7 @@ class Component(ComponentBase):
         base_url = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/' \
                    'kurzy-devizoveho-trhu/denni_kurz.txt'
 
+        # Get the dates from user input
         dates_list = []
         today = datetime.now(pytz.timezone('Europe/Prague')).date()
 
@@ -124,7 +127,20 @@ class Component(ComponentBase):
                 logging.warning('For \"Date to\" you selected a day in the future! Therefore, '
                                 '\"Date to\" was set to today\'s day')
 
-        kurzy = self.call_cnb_api(base_url, dates_list, today, params['current_as_today'])
+        # If specific currencies are selected pick only the selected country codes
+        if params['currency'] == 'All':
+            selected_currency = None
+        else:
+            selected_currency = []
+            for p in params:
+                if p.startswith("select_curr") and params[p]:
+                    selected_currency.append(p.split('_')[2])
+
+            if selected_currency == []:
+                raise UserException('No currency was selected!')
+
+
+        kurzy = self.call_cnb_api(base_url, dates_list, today, params['current_as_today'], selected_currency)
 
         # Create output table (Tabledefinition - just metadata)
         table = self.create_out_table_definition(name='output.csv',
