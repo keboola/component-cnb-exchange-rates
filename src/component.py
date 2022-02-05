@@ -106,12 +106,15 @@ class Component(ComponentBase):
             for i in range(7):
                 dates_list.append(today - timedelta(days=i))
         elif params['dates'] == "Custom date range":
-            date_from = datetime.strptime(params['dependent_date_from'], '%Y-%m-%d').date()
-            date_to = datetime.strptime(params['dependent_date_to'], '%Y-%m-%d').date()
-            if date_from == "" or date_to == "":
-                logging.error('Dates not specified for custom date range!')
-            elif date_from >= date_to:
+            try:
+                date_from = datetime.strptime(params['dependent_date_from'], '%Y-%m-%d').date()
+                date_to = datetime.strptime(params['dependent_date_to'], '%Y-%m-%d').date()
+            except ValueError:
+                logging.error('Dates not specified correctly for custom date range!')
+                exit()
+            if date_from >= date_to:
                 logging.error('Date from higher or equal to date to!')
+                exit()
             else:
                 for i in range((date_to - date_from).days + 1):
                     dates_list.append(date_to - timedelta(days=i))
