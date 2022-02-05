@@ -111,10 +111,8 @@ class Component(ComponentBase):
                 date_to = datetime.strptime(params['dependent_date_to'], '%Y-%m-%d').date()
             except ValueError:
                 logging.critical('Dates not specified correctly for custom date range!')
-                exit()
             if date_from >= date_to:
                 logging.critical('Date from higher or equal to date to!')
-                exit()
             else:
                 for i in range((date_to - date_from).days + 1):
                     dates_list.append(date_to - timedelta(days=i))
@@ -134,7 +132,7 @@ class Component(ComponentBase):
                 write.writerow(header)
                 write.writerows(kurzy)
         else:
-            raise Exception("Data were not fetched!")
+            raise UserException("Data were not fetched!")
 
         # Save table manifest (output.csv.manifest) from the tabledefinition
         self.write_manifest(table)
