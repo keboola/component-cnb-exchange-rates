@@ -110,10 +110,10 @@ class Component(ComponentBase):
                 date_from = datetime.strptime(params['dependent_date_from'], '%Y-%m-%d').date()
                 date_to = datetime.strptime(params['dependent_date_to'], '%Y-%m-%d').date()
             except ValueError:
-                logging.error('Dates not specified correctly for custom date range!')
+                logging.critical('Dates not specified correctly for custom date range!')
                 exit()
             if date_from >= date_to:
-                logging.error('Date from higher or equal to date to!')
+                logging.critical('Date from higher or equal to date to!')
                 exit()
             else:
                 for i in range((date_to - date_from).days + 1):

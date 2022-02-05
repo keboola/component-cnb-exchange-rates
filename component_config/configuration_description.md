@@ -9,4 +9,4 @@ Exchange rates of commonly traded currencies are declared every working day afte
 Other information can be found here: [www.cnb.cz](https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/)
 
 ---
-component version: *0.4.3*
+component version: *0.4.4*

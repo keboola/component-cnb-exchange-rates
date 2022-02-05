@@ -20,7 +20,7 @@
       "type": "boolean",
       "format": "checkbox",
       "title": "Incremental load",
-      "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key. Please note that if you go from incremental load to non-incremental your previously downloaded date will be overwritten!",
+      "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key. Please note that if you go later from incremental load to non-incremental your previously downloaded data will be overwritten!",
       "default": true,
       "propertyOrder": 200
     },
