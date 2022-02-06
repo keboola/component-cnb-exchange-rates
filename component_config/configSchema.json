@@ -11,7 +11,7 @@
   "properties": {
     "file_name": {
       "type": "string",
-      "title": "Table name",
+      "title": "<h3>Table name</h3>",
       "description": "Your data will be extracted to in.c-cnb-extractor.{your table name}",
       "minLength": 3,
       "default": "xxx",
@@ -20,14 +20,14 @@
     "incremental": {
       "type": "boolean",
       "format": "checkbox",
-      "title": "Incremental load",
+      "title": "<h3>Incremental load</h3>",
       "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key. Please note that if you go later from incremental load to non-incremental your previously downloaded data will be overwritten!",
       "default": true,
       "propertyOrder": 200
     },
     "dates": {
       "type": "string",
-      "title": "Range of dates",
+      "title": "<h3>Range of dates</h3>",
       "enum": [
         "Current day (currently declared rates)",
         "Current day and yesterday",
@@ -64,13 +64,13 @@
     "current_as_today": {
       "type": "boolean",
       "format": "checkbox",
-      "title": "Current rates as today's rates",
+      "title": "<h3>Current rates as today's rates</h3>",
       "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates for current day are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated on the next run.",
       "default": true,
       "propertyOrder": 600
     },
     "currency": {
-      "title": "Select currency",
+      "title": "<h3>Select currency</h3>",
       "type": "string",
       "enum": [
         "All",
@@ -442,17 +442,8 @@
       },
       "propertyOrder": 733
     },
-    "empty_row": {
-      "type": "string",
-      "format": "hidden",
-      "description": "...................................",
-      "options": {
-        "compact": true
-      },
-      "propertyOrder": 800
-    },
     "dafault_timezone": {
-      "title": "<h2>Default timezone</h2>",
+      "title": "<h3>Default timezone</h3>",
       "type": "string",
       "template": "Europe/Prague",
       "propertyOrder": 801
