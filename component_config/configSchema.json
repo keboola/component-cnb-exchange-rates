@@ -445,14 +445,14 @@
     "empty_row": {
       "type": "string",
       "format": "hidden",
-      "description": ".............................",
+      "description": "...................................",
       "options": {
         "compact": true
       },
       "propertyOrder": 800
     },
     "dafault_timezone": {
-      "title": "Default timezone",
+      "title": "<h2>Default timezone</h2>",
       "type": "string",
       "template": "Europe/Prague",
       "propertyOrder": 801
@@ -460,7 +460,7 @@
     "favorite_color": {
       "type": "string",
       "format": "color",
-      "title": "<h2>Pick your favourite color (just for fun)</h2>",
+      "title": "Pick your favourite color (just for fun)",
       "default": "#2b00ff",
       "propertyOrder": 1000
     }
