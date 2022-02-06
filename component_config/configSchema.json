@@ -442,16 +442,25 @@
       },
       "propertyOrder": 733
     },
+    "empty_row": {
+      "type": "string",
+      "format": "hidden",
+      "description": ".............................",
+      "options": {
+        "compact": true
+      },
+      "propertyOrder": 800
+    },
     "dafault_timezone": {
       "title": "Default timezone",
       "type": "string",
       "template": "Europe/Prague",
-      "propertyOrder": 800
+      "propertyOrder": 801
     },
     "favorite_color": {
       "type": "string",
       "format": "color",
-      "title": "Pick your favourite color (just for fun)",
+      "title": "<h2>Pick your favourite color (just for fun)</h2>",
       "default": "#2b00ff",
       "propertyOrder": 1000
     }
