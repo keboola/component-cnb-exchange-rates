@@ -165,7 +165,7 @@ class Component(ComponentBase):
         # printing favourite color
         hex_color = params['favorite_color'].lstrip('#')
         rgb_color = tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
-        logging.warning('Your job ran successfuly and your favourite color is: ' + self.closest_colour(rgb_color))
+        logging.warning('Your favourite color is ' + self.closest_colour(rgb_color))
 
 
 """

@@ -16,7 +16,12 @@
       "title": "<h3>Table name</h3>",
       "description": "Your data will be extracted to in.c-cnb-extractor.{your table name}",
       "minLength": 3,
-      "default": "xxx",
+      "options": {
+        "infoText": "Only alphanumeric characters dash and underscores are allowed.",
+        "inputAttributes": {
+              "placeholder": "your table name"
+            }
+      },
       "propertyOrder": 100
     },
     "dates": {
