@@ -79,7 +79,7 @@
       "default": "All",
       "propertyOrder": 700
     },
-    "dependent_AUD": {
+    "select_curr_AUD": {
       "title": "Austrálie (dolar)",
       "type": "boolean",
       "format": "checkbox",
@@ -90,7 +90,7 @@
       },
       "propertyOrder": 701
     },
-    "dependent_BRL": {
+    "select_curr_BRL": {
       "title": "Brazílie (real)",
       "type": "boolean",
       "format": "checkbox",
@@ -101,7 +101,7 @@
       },
       "propertyOrder": 702
     },
-    "dependent_BGN": {
+    "select_curr_BGN": {
       "title": "Bulharsko (lev)",
       "type": "boolean",
       "format": "checkbox",
@@ -112,7 +112,7 @@
       },
       "propertyOrder": 703
     },
-    "dependent_CNY": {
+    "select_curr_CNY": {
       "title": "Čína (žen-min-pi)",
       "type": "boolean",
       "format": "checkbox",
@@ -123,7 +123,7 @@
       },
       "propertyOrder": 704
     },
-    "dependent_DKK": {
+    "select_curr_DKK": {
       "title": "Dánsko (koruna)",
       "type": "boolean",
       "format": "checkbox",
@@ -134,7 +134,7 @@
       },
       "propertyOrder": 705
     },
-    "dependent_EUR": {
+    "select_curr_EUR": {
       "title": "EMU (euro)",
       "type": "boolean",
       "format": "checkbox",
@@ -145,7 +145,7 @@
       },
       "propertyOrder": 706
     },
-    "dependent_PHP": {
+    "select_curr_PHP": {
       "title": "Filipíny (peso)",
       "type": "boolean",
       "format": "checkbox",
@@ -156,7 +156,7 @@
       },
       "propertyOrder": 707
     },
-    "dependent_HKD": {
+    "select_curr_HKD": {
       "title": "Hongkong (dolar)",
       "type": "boolean",
       "format": "checkbox",
@@ -167,7 +167,7 @@
       },
       "propertyOrder": 708
     },
-    "dependent_HRK": {
+    "select_curr_HRK": {
       "title": "Chorvatsko (kuna)",
       "type": "boolean",
       "format": "checkbox",
@@ -178,7 +178,7 @@
       },
       "propertyOrder": 709
     },
-    "dependent_INR": {
+    "select_curr_INR": {
       "title": "Indie (rupie)",
       "type": "boolean",
       "format": "checkbox",
@@ -189,7 +189,7 @@
       },
       "propertyOrder": 710
     },
-    "dependent_IDR": {
+    "select_curr_IDR": {
       "title": "Indonesie (rupie)",
       "type": "boolean",
       "format": "checkbox",
@@ -200,7 +200,7 @@
       },
       "propertyOrder": 711
     },
-    "dependent_ISK": {
+    "select_curr_ISK": {
       "title": "Island (koruna)",
       "type": "boolean",
       "format": "checkbox",
@@ -211,7 +211,7 @@
       },
       "propertyOrder": 712
     },
-    "dependent_ILS": {
+    "select_curr_ILS": {
       "title": "Izrael (nový šekel)",
       "type": "boolean",
       "format": "checkbox",
@@ -222,7 +222,7 @@
       },
       "propertyOrder": 713
     },
-    "dependent_JPY": {
+    "select_curr_JPY": {
       "title": "Japonsko (jen)",
       "type": "boolean",
       "format": "checkbox",
@@ -233,7 +233,7 @@
       },
       "propertyOrder": 714
     },
-    "dependent_ZAR": {
+    "select_curr_ZAR": {
       "title": "Jižní Afrika (rand)",
       "type": "boolean",
       "format": "checkbox",
@@ -244,7 +244,7 @@
       },
       "propertyOrder": 715
     },
-    "dependent_CAD": {
+    "select_curr_CAD": {
       "title": "Kanada (dolar)",
       "type": "boolean",
       "format": "checkbox",
@@ -255,7 +255,7 @@
       },
       "propertyOrder": 716
     },
-    "dependent_KRW": {
+    "select_curr_KRW": {
       "title": "Korejská republika (won)",
       "type": "boolean",
       "format": "checkbox",
@@ -266,7 +266,7 @@
       },
       "propertyOrder": 717
     },
-    "dependent_HUF": {
+    "select_curr_HUF": {
       "title": "Maďarsko (forint)",
       "type": "boolean",
       "format": "checkbox",
@@ -277,7 +277,7 @@
       },
       "propertyOrder": 718
     },
-    "dependent_MYR": {
+    "select_curr_MYR": {
       "title": "Malajsie (ringgit)",
       "type": "boolean",
       "format": "checkbox",
@@ -288,7 +288,7 @@
       },
       "propertyOrder": 719
     },
-    "dependent_MXN": {
+    "select_curr_MXN": {
       "title": "Mexiko (peso)",
       "type": "boolean",
       "format": "checkbox",
@@ -299,7 +299,7 @@
       },
       "propertyOrder": 720
     },
-    "dependent_XDR": {
+    "select_curr_XDR": {
       "title": "MMF (ZPČ)",
       "type": "boolean",
       "format": "checkbox",
@@ -310,7 +310,7 @@
       },
       "propertyOrder": 721
     },
-    "dependent_NOK": {
+    "select_curr_NOK": {
       "title": "Norsko (koruna)",
       "type": "boolean",
       "format": "checkbox",
@@ -321,7 +321,7 @@
       },
       "propertyOrder": 722
     },
-    "dependent_NZD": {
+    "select_curr_NZD": {
       "title": "Nový Zéland (dolar)",
       "type": "boolean",
       "format": "checkbox",
@@ -332,7 +332,7 @@
       },
       "propertyOrder": 723
     },
-    "dependent_PLN": {
+    "select_curr_PLN": {
       "title": "Polsko (zlotý)",
       "type": "boolean",
       "format": "checkbox",
@@ -343,7 +343,7 @@
       },
       "propertyOrder": 724
     },
-    "dependent_RON": {
+    "select_curr_RON": {
       "title": "Rumunsko (leu)",
       "type": "boolean",
       "format": "checkbox",
@@ -354,7 +354,7 @@
       },
       "propertyOrder": 725
     },
-    "dependent_RUB": {
+    "select_curr_RUB": {
       "title": "Rusko (rubl)",
       "type": "boolean",
       "format": "checkbox",
@@ -365,7 +365,7 @@
       },
       "propertyOrder": 726
     },
-    "dependent_SGD": {
+    "select_curr_SGD": {
       "title": "Singapur (dolar)",
       "type": "boolean",
       "format": "checkbox",
@@ -376,7 +376,7 @@
       },
       "propertyOrder": 727
     },
-    "dependent_SEK": {
+    "select_curr_SEK": {
       "title": "Švédsko (koruna)",
       "type": "boolean",
       "format": "checkbox",
@@ -387,7 +387,7 @@
       },
       "propertyOrder": 728
     },
-    "dependent_CHF": {
+    "select_curr_CHF": {
       "title": "Švýcarsko (frank)",
       "type": "boolean",
       "format": "checkbox",
@@ -398,7 +398,7 @@
       },
       "propertyOrder": 729
     },
-    "dependent_THB": {
+    "select_curr_THB": {
       "title": "Thajsko (baht)",
       "type": "boolean",
       "format": "checkbox",
@@ -409,7 +409,7 @@
       },
       "propertyOrder": 730
     },
-    "dependent_TRY": {
+    "select_curr_TRY": {
       "title": "Turecko (lira)",
       "type": "boolean",
       "format": "checkbox",
@@ -420,7 +420,7 @@
       },
       "propertyOrder": 731
     },
-    "dependent_USD": {
+    "select_curr_USD": {
       "title": "USA (dolar)",
       "type": "boolean",
       "format": "checkbox",
@@ -431,7 +431,7 @@
       },
       "propertyOrder": 732
     },
-    "dependent_GBP": {
+    "select_curr_GBP": {
       "title": "Velká Británie (libra)",
       "type": "boolean",
       "format": "checkbox",
