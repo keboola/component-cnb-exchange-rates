@@ -67,7 +67,7 @@
       "type": "boolean",
       "format": "checkbox",
       "title": "<h3>Incremental load</h3>",
-      "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key. Please note that if you go later from incremental load to non-incremental your previously downloaded data will be lost!</br></br></br>",
+      "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key. Please note that if you go later from incremental load to non-incremental your previously downloaded data will be lost!</br>",
       "default": true,
       "propertyOrder": 400
     },
@@ -448,10 +448,11 @@
       "title": "<h3>Default timezone</h3>",
       "type": "string",
       "template": "Europe/Prague",
-      "propertyOrder": 801
+      "description": "</br></br>",
+      "propertyOrder": 800
     },
     "favorite_color": {
-      "title": "<h3>Pick your favourite color (just for fun)</h3>",
+      "title": "Pick your favourite color (just for fun)",
       "type": "string",
       "format": "color",
       "default": "#2b00ff",
