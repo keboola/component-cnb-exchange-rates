@@ -1,6 +1,5 @@
 {
   "type": "object",
-  "title": "Extractor configuration",
   "required": [
     "file_name",
     "incremental",
