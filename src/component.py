@@ -133,7 +133,10 @@ class Component(ComponentBase):
         else:
             selected_currency = []
             for p in params:
+                logging.info(p)
                 if p.startswith("select_curr") and params[p]:
+                    logging.warning(p.split('_'))
+                    logging.warning(type(params[p]))
                     selected_currency.append(p.split('_')[2])
 
             if selected_currency == []:

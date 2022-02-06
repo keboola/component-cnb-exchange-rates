@@ -1,67 +1,9 @@
 date,country,currency,amount,code,rate
 2022-02-06,Austrálie,dolar,1,AUD,15.070
 2022-02-06,Brazílie,real,1,BRL,4.004
-2022-02-06,Bulharsko,lev,1,BGN,12.456
-2022-02-06,Čína,žen-min-pi,1,CNY,3.341
-2022-02-06,Dánsko,koruna,1,DKK,3.273
-2022-02-06,EMU,euro,1,EUR,24.360
-2022-02-06,Filipíny,peso,100,PHP,41.465
-2022-02-06,Hongkong,dolar,1,HKD,2.729
-2022-02-06,Chorvatsko,kuna,1,HRK,3.236
-2022-02-06,Indie,rupie,100,INR,28.444
-2022-02-06,Indonesie,rupie,1000,IDR,1.478
-2022-02-06,Island,koruna,100,ISK,17.059
-2022-02-06,Izrael,nový šekel,1,ILS,6.632
-2022-02-06,Japonsko,jen,100,JPY,18.494
-2022-02-06,Jižní Afrika,rand,1,ZAR,1.385
-2022-02-06,Kanada,dolar,1,CAD,16.705
-2022-02-06,Korejská republika,won,100,KRW,1.773
-2022-02-06,Maďarsko,forint,100,HUF,6.903
-2022-02-06,Malajsie,ringgit,1,MYR,5.085
-2022-02-06,Mexiko,peso,1,MXN,1.033
-2022-02-06,MMF,ZPČ,1,XDR,29.734
 2022-02-06,Norsko,koruna,1,NOK,2.424
-2022-02-06,Nový Zéland,dolar,1,NZD,14.094
 2022-02-06,Polsko,zlotý,1,PLN,5.357
-2022-02-06,Rumunsko,leu,1,RON,4.925
-2022-02-06,Rusko,rubl,100,RUB,27.900
-2022-02-06,Singapur,dolar,1,SGD,15.801
-2022-02-06,Švédsko,koruna,1,SEK,2.331
-2022-02-06,Švýcarsko,frank,1,CHF,23.054
-2022-02-06,Thajsko,baht,100,THB,64.447
-2022-02-06,Turecko,lira,1,TRY,1.571
-2022-02-06,USA,dolar,1,USD,21.251
-2022-02-06,Velká Británie,libra,1,GBP,28.799
 2022-02-05,Austrálie,dolar,1,AUD,15.070
 2022-02-05,Brazílie,real,1,BRL,4.004
-2022-02-05,Bulharsko,lev,1,BGN,12.456
-2022-02-05,Čína,žen-min-pi,1,CNY,3.341
-2022-02-05,Dánsko,koruna,1,DKK,3.273
-2022-02-05,EMU,euro,1,EUR,24.360
-2022-02-05,Filipíny,peso,100,PHP,41.465
-2022-02-05,Hongkong,dolar,1,HKD,2.729
-2022-02-05,Chorvatsko,kuna,1,HRK,3.236
-2022-02-05,Indie,rupie,100,INR,28.444
-2022-02-05,Indonesie,rupie,1000,IDR,1.478
-2022-02-05,Island,koruna,100,ISK,17.059
-2022-02-05,Izrael,nový šekel,1,ILS,6.632
-2022-02-05,Japonsko,jen,100,JPY,18.494
-2022-02-05,Jižní Afrika,rand,1,ZAR,1.385
-2022-02-05,Kanada,dolar,1,CAD,16.705
-2022-02-05,Korejská republika,won,100,KRW,1.773
-2022-02-05,Maďarsko,forint,100,HUF,6.903
-2022-02-05,Malajsie,ringgit,1,MYR,5.085
-2022-02-05,Mexiko,peso,1,MXN,1.033
-2022-02-05,MMF,ZPČ,1,XDR,29.734
 2022-02-05,Norsko,koruna,1,NOK,2.424
-2022-02-05,Nový Zéland,dolar,1,NZD,14.094
 2022-02-05,Polsko,zlotý,1,PLN,5.357
-2022-02-05,Rumunsko,leu,1,RON,4.925
-2022-02-05,Rusko,rubl,100,RUB,27.900
-2022-02-05,Singapur,dolar,1,SGD,15.801
-2022-02-05,Švédsko,koruna,1,SEK,2.331
-2022-02-05,Švýcarsko,frank,1,CHF,23.054
-2022-02-05,Thajsko,baht,100,THB,64.447
-2022-02-05,Turecko,lira,1,TRY,1.571
-2022-02-05,USA,dolar,1,USD,21.251
-2022-02-05,Velká Británie,libra,1,GBP,28.799
