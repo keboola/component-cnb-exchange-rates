@@ -139,7 +139,6 @@ class Component(ComponentBase):
             if selected_currency == []:
                 raise UserException('No currency was selected!')
 
-
         kurzy = self.call_cnb_api(base_url, dates_list, today, params['current_as_today'], selected_currency)
 
         # Create output table (Tabledefinition - just metadata)
