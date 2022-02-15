@@ -1,6 +1,6 @@
 {
   "parameters": {
-    "file_name": "xxx",
+    "file_name": "",
   "incremental": true,
   "dates": "Current day and yesterday",
   "current_as_today": true,

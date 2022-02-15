@@ -84,6 +84,10 @@ class Component(ComponentBase):
         params = self.configuration.parameters
 
         out_table_name = params['file_name']
+
+        if out_table_name == "":
+            raise UserException('You have to specify a name for the output table!')
+
         out_storage_path = 'in.c-cnb-extractor.' + out_table_name
         out_incremental = params['incremental']
 
