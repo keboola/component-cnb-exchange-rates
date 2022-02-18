@@ -6,8 +6,7 @@
     "dates",
     "current_as_today",
     "currency",
-    "dafault_timezone",
-    "favorite_color"
+    "dafault_timezone"
   ],
   "properties": {
     "file_name": {
@@ -452,13 +451,6 @@
       "template": "Europe/Prague",
       "description": "</br></br>",
       "propertyOrder": 800
-    },
-    "favorite_color": {
-      "title": "Pick your favourite color (just for fun)",
-      "type": "string",
-      "format": "color",
-      "default": "#2b00ff",
-      "propertyOrder": 1000
     }
   }
 }

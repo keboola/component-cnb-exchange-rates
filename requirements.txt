@@ -6,4 +6,3 @@ keboola.utils
 mock
 freezegun
 requests
-webcolors
