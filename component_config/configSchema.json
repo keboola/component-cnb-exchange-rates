@@ -12,7 +12,7 @@
     "file_name": {
       "type": "string",
       "title": "<h3>Table name</h3>",
-      "description": "Only alphanumeric characters dash and underscores are allowed.</br>Your data will be extracted to in.c-cnb-extractor.{your table name}",
+      "description": "Only alphanumeric characters, dash and underscores are allowed.</br>Your data will be extracted to in.c-cnb-extractor.{your table name}",
       "options": {
         "inputAttributes": {
               "placeholder": "your table name"

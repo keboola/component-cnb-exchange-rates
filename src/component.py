@@ -75,7 +75,7 @@ class Component(ComponentBase):
         # otherwise if statement handles the error
         try:
             out_table_name = params['file_name']
-        except:
+        except KeyError:
             raise UserException('You have to specify a name for the output table!')
 
         if out_table_name == "":
