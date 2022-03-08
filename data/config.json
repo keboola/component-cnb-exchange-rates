@@ -1,6 +1,6 @@
 {
   "parameters": {
-    "file_name": "",
+    "file_name": "abc",
   "incremental": true,
   "dates": "Current day and yesterday",
   "current_as_today": true,

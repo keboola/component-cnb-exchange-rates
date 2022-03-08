@@ -5,7 +5,6 @@ Template Component main class.
 import csv
 import logging
 from datetime import datetime, timedelta
-# from datetime import datetime, date, timedelta
 import pytz
 import time
 import requests
@@ -72,7 +71,12 @@ class Component(ComponentBase):
         # config.json parameters
         params = self.configuration.parameters
 
-        out_table_name = params['file_name']
+        # In case user never touches the 'Table name' configuration box
+        # otherwise if statement handles the error
+        try:
+            out_table_name = params['file_name']
+        except:
+            raise UserException('You have to specify a name for the output table!')
 
         if out_table_name == "":
             raise UserException('You have to specify a name for the output table!')
