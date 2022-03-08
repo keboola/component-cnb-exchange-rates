@@ -357,17 +357,6 @@
       },
       "propertyOrder": 725
     },
-    "select_curr_RUB": {
-      "title": "Rusko (rubl)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 726
-    },
     "select_curr_SGD": {
       "title": "Singapur (dolar)",
       "type": "boolean",
