@@ -1,1 +1,1 @@
-{"destination": "in.c-cnb-extractor.xxx", "primary_key": ["date", "code"], "incremental": true, "metadata": [], "column_metadata": {}}
+{"destination": "in.c-cnb-extractor.abc", "primary_key": ["date", "code"], "incremental": true, "metadata": [], "column_metadata": {}}

@@ -40,10 +40,22 @@ class Component(ComponentBase):
         rates = []
         for d in dates:
             date_param = d.strftime('%d') + '.' + d.strftime('%m') + '.' + d.strftime('%Y')
-            for _ in range(10):
-                r = requests.get(base_url + '?date=' + date_param)
-                status_code = r.status_code
-                if status_code == 200:
+            request_tries = 10
+            for request_try in range(request_tries):
+                try:
+                    r = requests.get(url=base_url + '?date=' + date_param, timeout=15)
+                except (requests.exceptions.HTTPError,
+                        requests.exceptions.ConnectionError,
+                        requests.exceptions.Timeout,
+                        requests.exceptions.RequestException) as err:
+                    if request_try == request_tries-1:
+                        # last request try --> raising exception
+                        raise UserException(f'Request error occurred: {err}')
+                    else:
+                        logging.info('Request was not successful. Making another try.')
+                        continue
+
+                if 200 <= r.status_code <= 400:
                     if d == today and curr_flag is False:
                         parse_date = r.text[:r.text.find('#')].strip().split('.')
                         temp_date = parse_date[2] + '-' + parse_date[1] + '-' + parse_date[0]
@@ -58,6 +70,7 @@ class Component(ComponentBase):
                             rates.append([temp_date] + line_split[:4] + [line_split[4].replace(',', '.')])
                     break
                 else:
+                    logging.info('Request was not successful. Making another try.')
                     time.sleep(1)
         return rates
 
