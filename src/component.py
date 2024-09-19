@@ -16,6 +16,8 @@ from keboola.component.exceptions import UserException
 # configuration variables
 KEY_API_TOKEN = '#api_token'
 KEY_PRINT_HELLO = 'print_hello'
+
+# cnb endpoint and request tries variables
 REQUEST_TRIES = 10
 TARGET = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt'
 
@@ -23,6 +25,7 @@ TARGET = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu
 # component will fail with readable message on initialization.
 REQUIRED_PARAMETERS = [KEY_PRINT_HELLO]
 REQUIRED_IMAGE_PARS = []
+
 
 class Component(ComponentBase):
     def __init__(self):
@@ -107,16 +110,16 @@ class Component(ComponentBase):
         date_from: datetime,
         date_to: datetime
     ) -> None:
-        
+
         if date_from >= date_to:
             raise UserException('\"Date from\" is higher or equal to date to!')
-        
+
         if date_from > today:
             raise UserException('\"Date from\" is in the future!')
-        
+
         for i in range((min(date_to, today) - date_from).days + 1):
             dates_list.append(date_from + timedelta(days=i))
-        
+
         if date_to > today:
             logging.warning(
                 'For "Date to" you selected a day in the future! Therefore, '
@@ -171,12 +174,12 @@ class Component(ComponentBase):
         selected_currency = None if params['currency'] == 'All' else [
             p.split('_')[2] for p in params if p.startswith("select_curr") and params[p]
         ]
-        
+
         if selected_currency == []:
             raise UserException('No currency was selected!')
 
         file_header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
-        
+
         rates = self._call_cnb_api(
             TARGET,
             dates_list,
@@ -207,6 +210,7 @@ class Component(ComponentBase):
         self.write_state_file({"some_state_parameter": "value"})
         end_time = time.time()
         logging.info(f'Execution time: {end_time - start_time} seconds')
+
 
 if __name__ == "__main__":
     try:
