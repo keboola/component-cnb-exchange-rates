@@ -12,15 +12,12 @@ from typing import List, Dict
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 
-from .client import CNBRatesClient, CNBRatesClientException
+from client.client import CNBRatesClient, CNBRatesClientException
+# from config import Config
 
 # configuration variables
 KEY_API_TOKEN = '#api_token'
 KEY_PRINT_HELLO = 'print_hello'
-
-# cnb endpoint and request tries variables
-REQUEST_TRIES = 10
-TARGET = 'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt'
 
 # list of mandatory parameters => if some is missing,
 # component will fail with readable message on initialization.
@@ -126,12 +123,19 @@ class Component(ComponentBase):
 
         file_header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
 
+        # debug logging
+        logging.info(f'Calling get_rates with dates_list: {dates_list}, today: {today}, '
+                     f'current_as_today: {params["current_as_today"]}, selected_currency: {selected_currency}')
+
         rates = self.client.get_rates(
             dates_list,
             today,
             params['current_as_today'],
             selected_currency
         )
+
+        # debug logging
+        logging.info(f'Rates fetched: {rates}')
 
         table = self.create_out_table_definition(
             name='output.csv',
