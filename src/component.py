@@ -7,11 +7,12 @@ import logging
 from datetime import datetime, timedelta
 import pytz
 import time
-import requests
 from typing import List, Dict
 
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
+
+from .client import CNBRatesClient, CNBRatesClientException
 
 # configuration variables
 KEY_API_TOKEN = '#api_token'
@@ -30,63 +31,7 @@ REQUIRED_IMAGE_PARS = []
 class Component(ComponentBase):
     def __init__(self):
         super().__init__()
-
-    # Main API call method
-    def _call_cnb_api(
-            self,
-            target: str,
-            dates: List[datetime],
-            today: datetime,
-            curr_flag: bool,
-            currency: List[str]
-    ) -> List[str]:
-
-        data = []
-        for d in dates:
-            date_param = d.strftime('%d.%m.%Y')
-            for request_try in range(REQUEST_TRIES):
-                try:
-                    r = requests.get(url=target + '?date=' + date_param, timeout=15)
-                    r.raise_for_status()
-                except (
-                    requests.exceptions.RequestException,
-                    requests.exceptions.HTTPError,
-                    requests.exceptions.ConnectionError,
-                    requests.exceptions.Timeout
-                ) as err:
-                    if request_try == REQUEST_TRIES - 1:
-                        raise UserException(f'Request error occurred: {err}')
-                    logging.info('Request was not successful. Making another try.')
-                    continue
-
-                if 200 <= r.status_code <= 400:
-                    temp_date = self._parse_date(r, d, today, curr_flag)
-                    self._parse_response(data, r, temp_date, currency)
-                    break
-                else:
-                    logging.info('Request was not successful. Making another try.')
-                    time.sleep(1)
-        return data
-
-    # Parsers
-    @staticmethod
-    def _parse_response(
-        data: List,
-        response: requests.Response,
-        temp_date: str,
-        currency: List[str]
-    ) -> None:
-        for line in response.text.split('\n')[2:]:
-            line_split = line.split('|')
-            if len(line_split) == 5 and (currency is None or line_split[3] in currency):
-                data.append([temp_date] + line_split[:4] + [line_split[4].replace(',', '.')])
-
-    @staticmethod
-    def _parse_date(response, date: datetime, today: datetime, curr_flag: bool) -> str:
-        if date == today and not curr_flag:
-            parse_date = response.text[:response.text.find('#')].strip().split('.')
-            return f"{parse_date[2]}-{parse_date[1]}-{parse_date[0]}"
-        return date.strftime('%Y-%m-%d')
+        self.client = None
 
     # Date range setters
     @staticmethod
@@ -140,6 +85,7 @@ class Component(ComponentBase):
     def run(self):
         logging.info('Running...')
 
+        self.client = CNBRatesClient()
         start_time = time.time()
         # config.json parameters
         params = self.configuration.parameters
@@ -180,8 +126,7 @@ class Component(ComponentBase):
 
         file_header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
 
-        rates = self._call_cnb_api(
-            TARGET,
+        rates = self.client.get_rates(
             dates_list,
             today,
             params['current_as_today'],
@@ -217,9 +162,14 @@ if __name__ == "__main__":
         comp = Component()
         # this triggers the run method by default and is controlled by the configuration.action parameter
         comp.execute_action()
+
+    except CNBRatesClientException as exc:
+        raise UserException(exc)
+
     except UserException as exc:
         logging.exception(exc)
         exit(1)
+
     except Exception as exc:
         logging.exception(exc)
         exit(2)

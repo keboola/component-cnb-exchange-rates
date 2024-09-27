@@ -1,8 +1,8 @@
-keboola.component==1.3.5
-# various util methods, e.g. relative date generation ('1 day ago'=> date)
+backoff
+keboola.component
 keboola.utils
-# Convenient library providing base for HTTP clients
-# keboola.http-client
-mock
+keboola.http-client
 freezegun
-requests
+mock
+pydantic
+pre-commit
