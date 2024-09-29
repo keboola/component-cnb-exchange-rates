@@ -6,14 +6,13 @@ import csv
 import logging
 from datetime import datetime, timedelta
 import pytz
-import time
 from typing import List, Dict
 
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 
 from client.client import CNBRatesClient, CNBRatesClientException
-# from config import Config
+from configuration import Configuration, ConfigurationException
 
 # configuration variables
 KEY_API_TOKEN = '#api_token'
@@ -21,7 +20,7 @@ KEY_PRINT_HELLO = 'print_hello'
 
 # list of mandatory parameters => if some is missing,
 # component will fail with readable message on initialization.
-REQUIRED_PARAMETERS = [KEY_PRINT_HELLO]
+REQUIRED_PARAMETERS = [KEY_PRINT_HELLO, KEY_API_TOKEN]
 REQUIRED_IMAGE_PARS = []
 
 
@@ -83,16 +82,13 @@ class Component(ComponentBase):
         logging.info('Running...')
 
         self.client = CNBRatesClient()
-        start_time = time.time()
-        # config.json parameters
-        params = self.configuration.parameters
+        params = Configuration(**self.configuration.parameters)
 
-        out_table_name = params.get('file_name')
+        out_table_name = params.file_name
         if not out_table_name:
             raise UserException('You have to specify a name for the output table!')
 
-        out_storage_path = 'in.c-cnb-extractor.' + out_table_name
-        out_incremental = params['incremental']
+        out_incremental = params.incremental
 
         # output file definition - use if output mapping is enabled
         # kbc_out_path = self.configuration.config_data["storage"]["output"]["tables"][0]["destination"]
@@ -102,9 +98,9 @@ class Component(ComponentBase):
         dates_list = []
         today = datetime.now(pytz.timezone('Europe/Prague')).date()
 
-        date_action = self._get_dates_setters.get(params['dates'])
+        date_action = self._get_dates_setters.get(params.dates)
         if date_action:
-            if params['dates'] == "Custom date range":
+            if params.dates == "Custom date range":
                 try:
                     date_from = datetime.strptime(params['dependent_date_from'], '%Y-%m-%d').date()
                     date_to = datetime.strptime(params['dependent_date_to'], '%Y-%m-%d').date()
@@ -114,8 +110,8 @@ class Component(ComponentBase):
             else:
                 date_action(dates_list, today)
 
-        selected_currency = None if params['currency'] == 'All' else [
-            p.split('_')[2] for p in params if p.startswith("select_curr") and params[p]
+        selected_currency = None if params.currency == 'All' else [
+            p.split('_')[2] for p in params.model_fields_set if p.startswith("select_curr") and getattr(params, p) # noqa E501
         ]
 
         if selected_currency == []:
@@ -123,23 +119,15 @@ class Component(ComponentBase):
 
         file_header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
 
-        # debug logging
-        logging.info(f'Calling get_rates with dates_list: {dates_list}, today: {today}, '
-                     f'current_as_today: {params["current_as_today"]}, selected_currency: {selected_currency}')
-
         rates = self.client.get_rates(
             dates_list,
             today,
-            params['current_as_today'],
+            params.current_as_today,
             selected_currency
         )
 
-        # debug logging
-        logging.info(f'Rates fetched: {rates}')
-
         table = self.create_out_table_definition(
             name='output.csv',
-            destination=out_storage_path,
             incremental=out_incremental,
             primary_key=['date', 'code']
         )
@@ -157,8 +145,6 @@ class Component(ComponentBase):
 
         # Write new state - will be available next run
         self.write_state_file({"some_state_parameter": "value"})
-        end_time = time.time()
-        logging.info(f'Execution time: {end_time - start_time} seconds')
 
 
 if __name__ == "__main__":
@@ -167,7 +153,7 @@ if __name__ == "__main__":
         # this triggers the run method by default and is controlled by the configuration.action parameter
         comp.execute_action()
 
-    except CNBRatesClientException as exc:
+    except (CNBRatesClientException, ConfigurationException) as exc:
         raise UserException(exc)
 
     except UserException as exc:
