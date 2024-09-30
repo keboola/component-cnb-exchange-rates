@@ -1,1 +1,1 @@
-Extractor for ČNB exchange rates
+Extractor for ČNB exchange rates.

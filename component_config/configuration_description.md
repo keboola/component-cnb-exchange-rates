@@ -1,6 +1,6 @@
 ## Extractor for the CNB exchange rates
 
-This extractor allows you to download the exchange rates from the central bank of the Czech Republic
+This extractor allows you to download the exchange rates from the central bank of the Czech Republic.
 
 <br/>
 
@@ -11,4 +11,4 @@ Exchange rates of commonly traded currencies are declared every working day afte
 More information can be found on the official websites: [www.cnb.cz](https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/)
 
 ---
-component version: *0.6.20*
+component version: *1.0.0*
