@@ -14,15 +14,6 @@ from keboola.component.exceptions import UserException
 from client.client import CNBRatesClient, CNBRatesClientException
 from configuration import Configuration, ConfigurationException
 
-# configuration variables
-KEY_API_TOKEN = '#api_token'
-KEY_PRINT_HELLO = 'print_hello'
-
-# list of mandatory parameters => if some is missing,
-# component will fail with readable message on initialization.
-REQUIRED_PARAMETERS = [KEY_PRINT_HELLO, KEY_API_TOKEN]
-REQUIRED_IMAGE_PARS = []
-
 
 class Component(ComponentBase):
     def __init__(self):
@@ -84,17 +75,6 @@ class Component(ComponentBase):
         self.client = CNBRatesClient()
         params = Configuration(**self.configuration.parameters)
 
-        out_table_name = params.file_name
-        if not out_table_name:
-            raise UserException('You have to specify a name for the output table!')
-
-        out_incremental = params.incremental
-
-        # output file definition - use if output mapping is enabled
-        # kbc_out_path = self.configuration.config_data["storage"]["output"]["tables"][0]["destination"]
-        # out_file_name = self.configuration.config_data["storage"]["output"]["tables"][0]["source"]
-        # out_incremental = self.configuration.config_data["storage"]["output"]["tables"][0]["incremental"]
-
         dates_list = []
         today = datetime.now(pytz.timezone('Europe/Prague')).date()
 
@@ -128,7 +108,7 @@ class Component(ComponentBase):
 
         table = self.create_out_table_definition(
             name='output.csv',
-            incremental=out_incremental,
+            incremental=params.incremental,
             primary_key=['date', 'code']
         )
 
