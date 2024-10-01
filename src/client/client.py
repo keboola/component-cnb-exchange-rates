@@ -1,6 +1,3 @@
-import logging
-import time
-
 from datetime import datetime
 from typing import List
 
@@ -41,17 +38,13 @@ class CNBRatesClient(HttpClient):
     # Main API call method
     @on_exception(expo, CNBRatesClientException, max_tries=10)
     def get_rates(self, dates: List[datetime], today: datetime, curr_flag: bool, currency: List[str]) -> List[str]:
+        data = []
         for d in dates:
             date_param = d.strftime('%d.%m.%Y')
             raw_response = self.get_raw(f"{self.base_url}?date={date_param}", timeout=15)
             raw_response.raise_for_status()
 
-            if 200 <= raw_response.status_code <= 400:
-                temp_date = self._parse_date(raw_response, d, today, curr_flag)
-                data = self._parse_response(raw_response, temp_date, currency)
-                return data
-
-            logging.info('Request was not successful. Making another try.')
-            time.sleep(1)
+            temp_date = self._parse_date(raw_response, d, today, curr_flag)
+            data = self._parse_response(raw_response, temp_date, currency)
 
         return data

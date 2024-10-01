@@ -17,38 +17,38 @@ from configuration import Configuration, ConfigurationException
 
 
 CURRENCIES = {
-    "AUD": "Australian dollar",
-    "BRL": "Brazilian real",
-    "BGN": "Bulgarian lev",
-    "CNY": "Chinese yuan renminbi",
-    "DKK": "Danish krone",
-    "EUR": "Euro",
-    "PHP": "Philippine peso",
-    "HKD": "Hong Kong dollar",
-    "HRK": "Croatian kuna",
-    "INR": "Indian rupee",
-    "IDR": "Indonesian rupiah",
-    "ISK": "Icelandic krona",
-    "ILS": "Israeli shekel",
-    "JPY": "Japanese yen",
-    "ZAR": "South African rand",
-    "CAD": "Canadian dollar",
-    "KRW": "South Korean won",
-    "HUF": "Hungarian forint",
-    "MYR": "Malaysian ringgit",
-    "MXN": "Mexican peso",
-    "XDR": "Special drawing rights",
-    "NOK": "Norwegian krone",
-    "NZD": "New Zealand dollar",
-    "PLN": "Polish zloty",
-    "RON": "Romanian leu",
-    "SGD": "Singapore dollar",
-    "SEK": "Swedish krona",
-    "CHF": "Swiss franc",
-    "THB": "Thai baht",
-    "TRY": "Turkish lira",
-    "USD": "US dollar",
-    "GBP": "Pound sterling",
+    "Australian dollar": "AUD",
+    "Brazilian real": "BRL",
+    "Bulgarian lev": "BGN",
+    "Chinese yuan renminbi": "CNY",
+    "Danish krone": "DKK",
+    "Euro": "EUR",
+    "Philippine peso": "PHP",
+    "Hong Kong dollar": "HKD",
+    "Croatian kuna": "HRK",
+    "Indian rupee": "INR",
+    "Indonesian rupiah": "IDR",
+    "Icelandic krona": "ISK",
+    "Israeli shekel": "ILS",
+    "Japanese yen": "JPY",
+    "South African rand": "ZAR",
+    "Canadian dollar": "CAD",
+    "South Korean won": "KRW",
+    "Hungarian forint": "HUF",
+    "Malaysian ringgit": "MYR",
+    "Mexican peso": "MXN",
+    "Special drawing rights": "XDR",
+    "Norwegian krone": "NOK",
+    "New Zealand dollar": "NZD",
+    "Polish zloty": "PLN",
+    "Romanian leu": "RON",
+    "Singapore dollar": "SGD",
+    "Swedish krona": "SEK",
+    "Swiss franc": "CHF",
+    "Thai baht": "THB",
+    "Turkish lira": "TRY",
+    "US dollar": "USD",
+    "Pound sterling": "GBP"
 }
 
 
@@ -109,7 +109,7 @@ class Component(ComponentBase):
     # Component specific methods
     @sync_action("listCurrencies")
     def list_currencies(self) -> List[SelectElement]:
-        return [SelectElement(key=v, value=k) for k, v in CURRENCIES.items()]
+        return [SelectElement(label=k, value=v) for k, v in CURRENCIES.items()]
 
     def run(self):
         self.client = CNBRatesClient()
@@ -122,18 +122,13 @@ class Component(ComponentBase):
         if date_action:
             if params.dates == "Custom date range":
                 try:
-                    date_from = datetime.strptime(params['dependent_date_from'], '%Y-%m-%d').date()
-                    date_to = datetime.strptime(params['dependent_date_to'], '%Y-%m-%d').date()
+                    date_from = datetime.strptime(params.dependent_date_from, '%Y-%m-%d').date()
+                    date_to = datetime.strptime(params.dependent_date_to, '%Y-%m-%d').date()
                     date_action(dates_list, today, date_from, date_to)
                 except ValueError:
                     raise UserException('Dates not specified correctly for custom date range!')
             else:
                 date_action(dates_list, today)
-
-        selected_currency = params.selected_currencies
-
-        if selected_currency == []:
-            raise UserException('No currency was selected!')
 
         file_header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
 
@@ -141,7 +136,7 @@ class Component(ComponentBase):
             dates_list,
             today,
             params.current_as_today,
-            selected_currency
+            params.selected_currencies
         )
 
         table = self.create_out_table_definition(
