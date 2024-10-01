@@ -64,6 +64,7 @@ class Configuration(BaseModel):
     select_curr_GBP: Optional[bool] = Field(None, title="Velká Británie (libra)")
     dafault_timezone: str = Field(title="Default timezone", default="Europe/Prague")
     debug: bool = Field(title="Debug mode", default=False)
+    selected_currencies: Optional[list] = Field(None)
 
     def __init__(self, **data):
         try:

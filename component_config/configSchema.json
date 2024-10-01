@@ -440,6 +440,28 @@
       "template": "Europe/Prague",
       "description": "</br></br>",
       "propertyOrder": 800
+    },
+    "currencies": {
+      "title": "Currency settings (Sync Action)",
+      "type": "object",
+      "required": [
+        "currency"
+      ],
+      "properties": {
+        "selected_currencies": {
+          "type": "string",
+          "title": "Select currencies",
+          "description": "Select the currencies you want to extract.",
+          "options": {
+            "async": {
+              "cache": false,
+              "label": "List currencies",
+              "action": "listCurrencies",
+              "autoload": []
+            }
+          }
+        }
+      }
     }
   }
 }

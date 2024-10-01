@@ -8,11 +8,48 @@ from datetime import datetime, timedelta
 import pytz
 from typing import List, Dict
 
-from keboola.component.base import ComponentBase
+from keboola.component.base import ComponentBase, sync_action
 from keboola.component.exceptions import UserException
+from keboola.component.sync_actions import SelectElement
 
 from client.client import CNBRatesClient, CNBRatesClientException
 from configuration import Configuration, ConfigurationException
+
+
+CURRENCIES = {
+    "AUD": "Australian dollar",
+    "BRL": "Brazilian real",
+    "BGN": "Bulgarian lev",
+    "CNY": "Chinese yuan renminbi",
+    "DKK": "Danish krone",
+    "EUR": "Euro",
+    "PHP": "Philippine peso",
+    "HKD": "Hong Kong dollar",
+    "HRK": "Croatian kuna",
+    "INR": "Indian rupee",
+    "IDR": "Indonesian rupiah",
+    "ISK": "Icelandic krona",
+    "ILS": "Israeli shekel",
+    "JPY": "Japanese yen",
+    "ZAR": "South African rand",
+    "CAD": "Canadian dollar",
+    "KRW": "South Korean won",
+    "HUF": "Hungarian forint",
+    "MYR": "Malaysian ringgit",
+    "MXN": "Mexican peso",
+    "XDR": "Special drawing rights",
+    "NOK": "Norwegian krone",
+    "NZD": "New Zealand dollar",
+    "PLN": "Polish zloty",
+    "RON": "Romanian leu",
+    "SGD": "Singapore dollar",
+    "SEK": "Swedish krona",
+    "CHF": "Swiss franc",
+    "THB": "Thai baht",
+    "TRY": "Turkish lira",
+    "USD": "US dollar",
+    "GBP": "Pound sterling",
+}
 
 
 class Component(ComponentBase):
@@ -69,9 +106,12 @@ class Component(ComponentBase):
             'Custom date range': self._set_custom_date_range
         }
 
-    def run(self):
-        logging.info('Running...')
+    # Component specific methods
+    @sync_action("listCurrencies")
+    def list_currencies(self) -> List[SelectElement]:
+        return [SelectElement(key=v, value=k) for k, v in CURRENCIES.items()]
 
+    def run(self):
         self.client = CNBRatesClient()
         params = Configuration(**self.configuration.parameters)
 
@@ -90,9 +130,7 @@ class Component(ComponentBase):
             else:
                 date_action(dates_list, today)
 
-        selected_currency = None if params.currency == 'All' else [
-            p.split('_')[2] for p in params.model_fields_set if p.startswith("select_curr") and getattr(params, p) # noqa E501
-        ]
+        selected_currency = params.selected_currencies
 
         if selected_currency == []:
             raise UserException('No currency was selected!')
@@ -122,9 +160,6 @@ class Component(ComponentBase):
 
         # Save table manifest (output.csv.manifest) from the tabledefinition
         self.write_manifest(table)
-
-        # Write new state - will be available next run
-        self.write_state_file({"some_state_parameter": "value"})
 
 
 if __name__ == "__main__":
