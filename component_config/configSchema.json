@@ -71,10 +71,8 @@
           "description": "Select the currencies you want to extract.",
           "options": {
             "async": {
-              "cache": false,
               "label": "List currencies",
-              "action": "listCurrencies",
-              "autoload": []
+              "action": "list_currencies"
             }
           }
         }
