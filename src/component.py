@@ -107,7 +107,7 @@ class Component(ComponentBase):
         }
 
     # Component specific methods
-    @sync_action("listCurrencies")
+    @sync_action("list_currencies")
     def list_currencies(self) -> List[SelectElement]:
         return [SelectElement(label=k, value=v) for k, v in CURRENCIES.items()]
 
