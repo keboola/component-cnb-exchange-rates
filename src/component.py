@@ -118,12 +118,12 @@ class Component(ComponentBase):
         dates_list = []
         today = datetime.now(pytz.timezone('Europe/Prague')).date()
 
-        date_action = self._get_dates_setters.get(params.dates)
+        date_action = self._get_dates_setters.get(params.date_settings.dates)
         if date_action:
-            if params.dates == "Custom date range":
+            if params.date_settings.dates == "Custom date range":
                 try:
-                    date_from = datetime.strptime(params.dependent_date_from, '%Y-%m-%d').date()
-                    date_to = datetime.strptime(params.dependent_date_to, '%Y-%m-%d').date()
+                    date_from = datetime.strptime(params.date_settings.dependent_date_from, '%Y-%m-%d').date()
+                    date_to = datetime.strptime(params.date_settings.dependent_date_to, '%Y-%m-%d').date()
                     date_action(dates_list, today, date_from, date_to)
                 except ValueError:
                     raise UserException('Dates not specified correctly for custom date range!')
@@ -135,8 +135,8 @@ class Component(ComponentBase):
         rates = self.client.get_rates(
             dates_list,
             today,
-            params.current_as_today,
-            params.selected_currencies
+            params.date_settings.current_as_today,
+            params.currencies.selected_currencies
         )
 
         table = self.create_out_table_definition(

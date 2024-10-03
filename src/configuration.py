@@ -10,11 +10,15 @@ class ConfigurationException(Exception):
     pass
 
 
-class Configuration(BaseModel):
+class DestinationConfig:
     file_name: str = Field(
         title="Table name",
         description="Only alphanumeric characters, dash and underscores are allowed."
     )
+    incremental: bool = Field(title="Incremental load", default=True)
+
+
+class DateSettingsConfig:
     dates: str = Field(
         title="Range of dates",
         default="Current day and yesterday",
@@ -28,10 +32,18 @@ class Configuration(BaseModel):
     dependent_date_from: Optional[date] = Field(None, title="Date from")
     dependent_date_to: Optional[date] = Field(None, title="Date to")
     current_as_today: bool = Field(title="Current rates as today's rates", default=True)
-    incremental: bool = Field(title="Incremental load", default=True)
-    dafault_timezone: str = Field(title="Default timezone", default="Europe/Prague")
-    debug: bool = Field(title="Debug mode", default=False)
+    default_timezone: str = Field(title="Default timezone", default="Europe/Prague")
+
+
+class CurrenciesConfig:
     selected_currencies: Optional[list] = Field(None)
+
+
+class Configuration(BaseModel):
+    debug: bool = Field(title="Debug mode", default=False)
+    currencies: CurrenciesConfig
+    destination: DestinationConfig
+    date_settings: DateSettingsConfig
 
     def __init__(self, **data):
         try:

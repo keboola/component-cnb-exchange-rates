@@ -72,7 +72,7 @@
               "label": "List currencies",
               "action": "list_currencies",
               "autoload": [
-                "parameters.selected_currencies"
+                "parameters.currencies.selected_currencies"
               ]
             }
           },
