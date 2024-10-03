@@ -10,7 +10,7 @@ class ConfigurationException(Exception):
     pass
 
 
-class DestinationConfig:
+class DestinationConfig(BaseModel):
     file_name: str = Field(
         title="Table name",
         description="Only alphanumeric characters, dash and underscores are allowed."
@@ -18,7 +18,7 @@ class DestinationConfig:
     incremental: bool = Field(title="Incremental load", default=True)
 
 
-class DateSettingsConfig:
+class DateSettingsConfig(BaseModel):
     dates: str = Field(
         title="Range of dates",
         default="Current day and yesterday",
@@ -35,7 +35,7 @@ class DateSettingsConfig:
     default_timezone: str = Field(title="Default timezone", default="Europe/Prague")
 
 
-class CurrenciesConfig:
+class CurrenciesConfig(BaseModel):
     selected_currencies: Optional[list] = Field(None)
 
 

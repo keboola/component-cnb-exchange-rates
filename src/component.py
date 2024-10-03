@@ -141,7 +141,7 @@ class Component(ComponentBase):
 
         table = self.create_out_table_definition(
             name='output.csv',
-            incremental=params.incremental,
+            incremental=params.destination.incremental,
             primary_key=['date', 'code']
         )
 
