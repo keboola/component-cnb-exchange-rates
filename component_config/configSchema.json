@@ -67,7 +67,8 @@
           "options": {
             "async": {
               "label": "List currencies",
-              "action": "list_currencies"
+              "action": "list_currencies",
+              "autoload": []
             }
           }
         }
