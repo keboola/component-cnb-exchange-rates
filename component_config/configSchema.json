@@ -71,6 +71,7 @@
           "format": "select",
           "options": {
             "async": {
+              "cache": false,
               "label": "List currencies",
               "action": "list_currencies",
               "autoload": [
