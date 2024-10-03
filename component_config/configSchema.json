@@ -61,16 +61,24 @@
       ],
       "properties": {
         "selected_currencies": {
-          "type": "string",
+          "type": "array",
+          "items": {
+            "enum": [],
+            "type": "string"
+          },
           "title": "Select currencies",
-          "description": "Select the currencies you want to extract.",
+          "format": "select",
           "options": {
             "async": {
               "label": "List currencies",
               "action": "list_currencies",
-              "autoload": []
+              "autoload": [
+                "parameters.currencies.selected_currencies"
+              ]
             }
-          }
+          },
+          "description": "Select the currencies you want to extract.",
+          "uniqueItems": true
         }
       }
     },
