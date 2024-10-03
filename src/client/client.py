@@ -20,11 +20,11 @@ class CNBRatesClient(HttpClient):
 
     # Parsers
     @staticmethod
-    def _parse_response(response: Response, temp_date: str, currency: List[str]) -> List[str]:
+    def _parse_response(response: Response, temp_date: str, currencies: List[str]) -> List[str]:
         data = []
         for line in response.text.split('\n')[2:]:
             line_split = line.split('|')
-            if len(line_split) == 5 and (currency is None or line_split[3] in currency):
+            if len(line_split) == 5 and (currencies is None or line_split[3] in currencies):
                 data.append([temp_date] + line_split[:4] + [line_split[4].replace(',', '.')])
         return data
 
@@ -37,7 +37,7 @@ class CNBRatesClient(HttpClient):
 
     # Main API call method
     @on_exception(expo, CNBRatesClientException, max_tries=10)
-    def get_rates(self, dates: List[datetime], today: datetime, curr_flag: bool, currency: List[str]) -> List[str]:
+    def get_rates(self, dates: List[datetime], today: datetime, curr_flag: bool, currencies: List[str]) -> List[str]:
         data = []
         for d in dates:
             date_param = d.strftime('%d.%m.%Y')
@@ -45,6 +45,6 @@ class CNBRatesClient(HttpClient):
             raw_response.raise_for_status()
 
             temp_date = self._parse_date(raw_response, d, today, curr_flag)
-            data = self._parse_response(raw_response, temp_date, currency)
+            data = self._parse_response(raw_response, temp_date, currencies)
 
         return data
