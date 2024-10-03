@@ -63,12 +63,9 @@
       "properties": {
         "selected_currencies": {
           "type": "array",
-          "items": {
-            "enum": [],
-            "type": "string"
-          },
           "title": "Select currencies",
           "format": "select",
+          "description": "Select the currencies you want to extract.",
           "options": {
             "async": {
               "cache": false,
@@ -79,10 +76,14 @@
               ]
             }
           },
-          "description": "Select the currencies you want to extract.",
+          "items": {
+            "enum": [],
+            "type": "string"
+          },
           "uniqueItems": true
         }
       },
+      "minItems": 1,
       "uniqueItems": true,
       "propertyOrder": 2
     },
