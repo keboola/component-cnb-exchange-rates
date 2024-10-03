@@ -57,7 +57,8 @@ jobs:
       - name: Set image tag
         id: tag
         run: |
-          TAG="${GITHUB_REF##*/}-test5"
+          app_img_tag=$(echo "$branch_name" | sed 's/\//-/g')-${GITHUB_RUN_NUMBER}
+          TAG="${GITHUB_REF##*/}-${app_img_tag}"
           IS_SEMANTIC_TAG=$(echo "$TAG" | grep -q '^v\?[0-9]\+\.[0-9]\+\.[0-9]\+$' && echo true || echo false)
           echo "is_semantic_tag=$IS_SEMANTIC_TAG" | tee -a $GITHUB_OUTPUT
           echo "app_image_tag=$TAG" | tee -a $GITHUB_OUTPUT
@@ -193,7 +194,7 @@ jobs:
       - push_event_info
       - build
       - push
-    # if: needs.push_event_info.outputs.is_deploy_ready == 'true'
+    if: needs.push_event_info.outputs.is_deploy_ready == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Set Developer Portal Tag
@@ -214,7 +215,7 @@ jobs:
       - build
       - push
     runs-on: ubuntu-latest
-    # if: needs.push_event_info.outputs.is_deploy_ready == 'true'
+    if: needs.push_event_info.outputs.is_deploy_ready == 'true'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
