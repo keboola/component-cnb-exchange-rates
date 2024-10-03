@@ -80,7 +80,8 @@
           "description": "Select the currencies you want to extract.",
           "uniqueItems": true
         }
-      }
+      },
+      "uniqueItems": true
     },
     "destination": {
       "title": "Destination",
