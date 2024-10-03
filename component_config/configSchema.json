@@ -51,7 +51,8 @@
           "template": "Europe/Prague",
           "description": "</br></br>"
         }
-      }
+      },
+      "propertyOrder": 3
     },
     "currencies": {
       "title": "Currency settings",
@@ -81,7 +82,8 @@
           "uniqueItems": true
         }
       },
-      "uniqueItems": true
+      "uniqueItems": true,
+      "propertyOrder": 2
     },
     "destination": {
       "title": "Destination",
@@ -118,7 +120,8 @@
           },
           "description": "If Full load is used, the destination table will be overwritten every run. If incremental load is used, data will be upserted into the destination table. Tables with a primary key will have rows updated, tables without a primary key will have rows appended."
         }
-      }
+      },
+    "propertyOrder": 1
     }
   }
 }
