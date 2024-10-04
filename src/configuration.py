@@ -15,7 +15,7 @@ class DestinationConfig(BaseModel):
         title="Table name",
         description="Only alphanumeric characters, dash and underscores are allowed."
     )
-    incremental: bool = Field(title="Incremental load", default=True)
+    incremental: str = Field(title="Incremental load", default="full_load")
 
 
 class DateSettingsConfig(BaseModel):
@@ -58,6 +58,8 @@ class OldConfiguration(BaseModel):
         description="Only alphanumeric characters, dash and underscores are allowed. Your data will be extracted to in.c-cnb-extractor.{your table name}" # noqa E501
     )
     incremental: bool = Field(
+        title="Incremental load",
+        default=False,
         description="By checking this box newly extracted data will be loaded incrementally to the Storage." # noqa E501
     )
     dates: str = Field(
