@@ -14,7 +14,8 @@
             "Week",
             "Custom date range"
           ],
-          "default": "Current day and yesterday"
+          "default": "Current day and yesterday",
+          "propertyOrder": 310
         },
         "dependent_date_from": {
           "title": "Date from",
@@ -25,7 +26,8 @@
             "dependencies": {
               "dates": "Custom date range"
             }
-          }
+          },
+          "propertyOrder": 330
         },
         "dependent_date_to": {
           "title": "Date to",
@@ -36,23 +38,26 @@
             "dependencies": {
               "dates": "Custom date range"
             }
-          }
+          },
+          "propertyOrder": 340
         },
         "current_as_today": {
           "type": "boolean",
           "format": "checkbox",
           "title": "Current rates as today's rates",
           "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates for current day are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated on the next run.",
-          "default": true
+          "default": true,
+          "propertyOrder": 320
         },
         "default_timezone": {
           "title": "Default timezone",
           "type": "string",
           "template": "Europe/Prague",
-          "description": "</br></br>"
+          "description": "</br></br>",
+          "propertyOrder": 350
         }
       },
-      "propertyOrder": 3
+      "propertyOrder": 300
     },
     "currencies": {
       "title": "Currency settings",
@@ -107,7 +112,7 @@
           "uniqueItems": true
         }
       },
-      "propertyOrder": 2
+      "propertyOrder": 200
     },
     "destination": {
       "title": "Destination",
@@ -145,7 +150,7 @@
           "description": "If Full load is used, the destination table will be overwritten every run. If incremental load is used, data will be imported into the destination table. Tables with a primary key will have rows updated, tables without a primary key will have rows appended."
         }
       },
-      "propertyOrder": 1
+      "propertyOrder": 100
     }
   }
 }

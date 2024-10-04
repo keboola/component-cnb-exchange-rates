@@ -5,9 +5,6 @@ This component was built to extract the exchange rates from [CNB](www.cnb.cz) ri
 
 It lets the user specify date ranges in the component UI and then it basically just access endpoint and extracts the exchange rates for specified dates. User can also select only specific currencies to be downloaded.
 
-Functionality notes
-===================
-
 Prerequisites
 =============
 
