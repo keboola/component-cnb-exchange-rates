@@ -104,10 +104,10 @@
             "type": "string"
           },
           "minItems": 1,
-          "uniqueItems": true,
-          "propertyOrder": 2
+          "uniqueItems": true
         }
-      }
+      },
+      "propertyOrder": 2
     },
     "destination": {
       "title": "Destination",
