@@ -6,15 +6,15 @@
       "type": "object",
       "properties": {
         "dates": {
-            "type": "string",
-            "title": "Range of dates",
-            "enum": [
-              "Current day (currently declared rates)",
-              "Current day and yesterday",
-              "Week",
-              "Custom date range"
-            ],
-            "default": "Current day and yesterday"
+          "type": "string",
+          "title": "Range of dates",
+          "enum": [
+            "Current day (currently declared rates)",
+            "Current day and yesterday",
+            "Week",
+            "Custom date range"
+          ],
+          "default": "Current day and yesterday"
         },
         "dependent_date_from": {
           "title": "Date from",
@@ -106,7 +106,9 @@
           "minItems": 1,
           "uniqueItems": true,
           "propertyOrder": 2
-        },
+        }
+      }
+    },
     "destination": {
       "title": "Destination",
       "type": "object",
@@ -121,8 +123,8 @@
           "description": "Only alphanumeric characters, dash and underscores are allowed.</br>Your data will be extracted to in.c-cnb-extractor.{your table name}",
           "options": {
             "inputAttributes": {
-                  "placeholder": "your table name"
-                }
+              "placeholder": "your table name"
+            }
           }
         },
         "incremental": {
@@ -140,10 +142,10 @@
               "Incremental Load"
             ]
           },
-          "description": "If Full load is used, the destination table will be overwritten every run. If incremental load is used, data will be upserted into the destination table. Tables with a primary key will have rows updated, tables without a primary key will have rows appended."
+          "description": "If Full load is used, the destination table will be overwritten every run. If incremental load is used, data will be imported into the destination table. Tables with a primary key will have rows updated, tables without a primary key will have rows appended."
         }
       },
-    "propertyOrder": 1
+      "propertyOrder": 1
     }
   }
 }
