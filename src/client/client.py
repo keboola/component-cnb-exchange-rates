@@ -1,3 +1,5 @@
+import logging
+
 from datetime import datetime, date
 from typing import List
 
@@ -39,12 +41,14 @@ class CNBRatesClient(HttpClient):
     @on_exception(expo, CNBRatesClientException, max_tries=10)
     def get_rates(self, dates: List[datetime], today: date, curr_flag: bool, currencies: List[str]) -> List[str]:
         data = []
+        logging.info(f"Fetching CNB rates for {len(dates)} days")
         for d in dates:
             date_param = d.strftime('%d.%m.%Y')
             raw_response = self.get_raw(f"{self.base_url}?date={date_param}", timeout=15)
             raw_response.raise_for_status()
 
             temp_date = self._parse_date(raw_response, d, today, curr_flag)
-            data = self._parse_response(raw_response, temp_date, currencies)
+            temp_data = self._parse_response(raw_response, temp_date, currencies)
+            data.extend(temp_data)
 
         return data
