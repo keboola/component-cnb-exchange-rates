@@ -15,7 +15,7 @@ class DestinationConfig(BaseModel):
         title="Table name",
         description="Only alphanumeric characters, dash and underscores are allowed."
     )
-    incremental: str = Field(title="Incremental load", default="full_load")
+    incremental: str = Field(title="Load type", default="full_load")
 
 
 class DateSettingsConfig(BaseModel):
