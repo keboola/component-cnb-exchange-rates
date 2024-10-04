@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import List
 
 from backoff import on_exception, expo
@@ -20,7 +20,7 @@ class CNBRatesClient(HttpClient):
 
     # Parsers
     @staticmethod
-    def _parse_response(response: Response, temp_date: str, currencies: List[str]) -> List[str]:
+    def _parse_response(response: Response, temp_date: str, currencies: List[str]) -> List[List[str]]:
         data = []
         for line in response.text.split('\n')[2:]:
             line_split = line.split('|')
@@ -29,15 +29,15 @@ class CNBRatesClient(HttpClient):
         return data
 
     @staticmethod
-    def _parse_date(response: Response, date: datetime, today: datetime, curr_flag: bool) -> str:
-        if date == today and not curr_flag:
+    def _parse_date(response: Response, dt: date, today: date, curr_flag: bool) -> str:
+        if dt == today and not curr_flag:
             parse_date = response.text[:response.text.find('#')].strip().split('.')
             return f"{parse_date[2]}-{parse_date[1]}-{parse_date[0]}"
-        return date.strftime('%Y-%m-%d')
+        return dt.strftime('%Y-%m-%d')
 
     # Main API call method
     @on_exception(expo, CNBRatesClientException, max_tries=10)
-    def get_rates(self, dates: List[datetime], today: datetime, curr_flag: bool, currencies: List[str]) -> List[str]:
+    def get_rates(self, dates: List[datetime], today: date, curr_flag: bool, currencies: List[str]) -> List[str]:
         data = []
         for d in dates:
             date_param = d.strftime('%d.%m.%Y')

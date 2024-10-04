@@ -4,52 +4,15 @@ Template Component main class.
 '''
 import csv
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import pytz
 from typing import List, Dict
 
-from keboola.component.base import ComponentBase, sync_action
+from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
-from keboola.component.sync_actions import SelectElement
 
 from client.client import CNBRatesClient, CNBRatesClientException
 from configuration import Configuration, ConfigurationException
-
-
-CURRENCIES = {
-    "Australian dollar": "AUD",
-    "Brazilian real": "BRL",
-    "Bulgarian lev": "BGN",
-    "Chinese yuan renminbi": "CNY",
-    "Danish krone": "DKK",
-    "Euro": "EUR",
-    "Philippine peso": "PHP",
-    "Hong Kong dollar": "HKD",
-    "Croatian kuna": "HRK",
-    "Indian rupee": "INR",
-    "Indonesian rupiah": "IDR",
-    "Icelandic krona": "ISK",
-    "Israeli shekel": "ILS",
-    "Japanese yen": "JPY",
-    "South African rand": "ZAR",
-    "Canadian dollar": "CAD",
-    "South Korean won": "KRW",
-    "Hungarian forint": "HUF",
-    "Malaysian ringgit": "MYR",
-    "Mexican peso": "MXN",
-    "Special drawing rights": "XDR",
-    "Norwegian krone": "NOK",
-    "New Zealand dollar": "NZD",
-    "Polish zloty": "PLN",
-    "Romanian leu": "RON",
-    "Singapore dollar": "SGD",
-    "Swedish krona": "SEK",
-    "Swiss franc": "CHF",
-    "Thai baht": "THB",
-    "Turkish lira": "TRY",
-    "US dollar": "USD",
-    "Pound sterling": "GBP"
-}
 
 
 class Component(ComponentBase):
@@ -107,23 +70,19 @@ class Component(ComponentBase):
         }
 
     # Component specific methods
-    @sync_action("list_currencies")
-    def list_currencies(self) -> List[SelectElement]:
-        return [SelectElement(label=k, value=v) for k, v in CURRENCIES.items()]
-
     def run(self):
         self.client = CNBRatesClient()
         params = Configuration(**self.configuration.parameters)
 
         dates_list = []
-        today = datetime.now(pytz.timezone('Europe/Prague')).date()
+        today: date = datetime.now(pytz.timezone('Europe/Prague')).date()
 
         date_action = self._get_dates_setters.get(params.date_settings.dates)
         if date_action:
             if params.date_settings.dates == "Custom date range":
                 try:
-                    date_from = datetime.strptime(params.date_settings.dependent_date_from, '%Y-%m-%d').date()
-                    date_to = datetime.strptime(params.date_settings.dependent_date_to, '%Y-%m-%d').date()
+                    date_from = datetime.strptime(str(params.date_settings.dependent_date_from), '%Y-%m-%d').date()
+                    date_to = datetime.strptime(str(params.date_settings.dependent_date_to), '%Y-%m-%d').date()
                     date_action(dates_list, today, date_from, date_to)
                 except ValueError:
                     raise UserException('Dates not specified correctly for custom date range!')
@@ -153,7 +112,7 @@ class Component(ComponentBase):
         else:
             raise UserException("Data were not fetched!")
 
-        # Save table manifest (output.csv.manifest) from the tabledefinition
+        # Save table manifest (output.csv.manifest) from the table definition
         self.write_manifest(table)
 
 

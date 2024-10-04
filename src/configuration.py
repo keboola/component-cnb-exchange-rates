@@ -22,12 +22,6 @@ class DateSettingsConfig(BaseModel):
     dates: str = Field(
         title="Range of dates",
         default="Current day and yesterday",
-        enum=[
-            "Current day (currently declared rates)",
-            "Current day and yesterday",
-            "Week",
-            "Custom date range"
-        ]
     )
     dependent_date_from: Optional[date] = Field(None, title="Date from")
     dependent_date_to: Optional[date] = Field(None, title="Date to")
