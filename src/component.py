@@ -35,7 +35,7 @@ class Component(ComponentBase):
 
             params = NewConfiguration(**self.configuration.parameters)
             dates_list = self._run_with_new_config(params, today)
-            incr = params.destination.incremental
+            incr = True if params.destination.incremental == "incremental_load" else False
             out = params.destination.file_name
             currencies = params.currencies.selected_currencies
 
