@@ -12,8 +12,9 @@ class ConfigurationException(Exception):
 
 class DestinationConfig(BaseModel):
     file_name: str = Field(
-        title="Table name",
-        description="Only alphanumeric characters, dash and underscores are allowed."
+        title="Table name (Optional)",
+        description="Only alphanumeric characters, dash and underscores are allowed.",
+        default="output",
     )
     incremental: str = Field(title="Load type", default="full_load")
 
@@ -26,7 +27,6 @@ class DateSettingsConfig(BaseModel):
     dependent_date_from: Optional[date] = Field(None, title="Date from")
     dependent_date_to: Optional[date] = Field(None, title="Date to")
     current_as_today: bool = Field(title="Current rates as today's rates", default=True)
-    default_timezone: str = Field(title="Default timezone", default="Europe/Prague")
 
 
 class CurrenciesConfig(BaseModel):

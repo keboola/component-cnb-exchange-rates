@@ -1,7 +1,3 @@
-'''
-Template Component main class.
-
-'''
 import csv
 import logging
 from datetime import datetime, timedelta, date
@@ -87,7 +83,6 @@ class Component(ComponentBase):
         else:
             raise UserException("Data were not fetched!")
 
-        # Save table manifest (output.csv.manifest) from the table definition
         self.write_manifest(table)
 
     def _run_with_new_config(self, params: NewConfiguration, today: date):
@@ -118,7 +113,10 @@ class Component(ComponentBase):
     def _run_with_old_config(self, params: OldConfiguration, today: date):
         dates_list = []
         currencies = []
+
+        # selection of dates setter based on dates parameter in congif.json
         date_action = self._get_dates_setters.get(params.dates)
+
         params_dict = params.model_dump()
         selected_currencies = {key: value for key, value in params_dict.items() if key.startswith("select_curr")}
 

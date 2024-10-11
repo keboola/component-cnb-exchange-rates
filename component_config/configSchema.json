@@ -48,13 +48,6 @@
           "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates for current day are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated on the next run.",
           "default": true,
           "propertyOrder": 320
-        },
-        "default_timezone": {
-          "title": "Default timezone",
-          "type": "string",
-          "template": "Europe/Prague",
-          "description": "</br></br>",
-          "propertyOrder": 350
         }
       },
       "propertyOrder": 300
