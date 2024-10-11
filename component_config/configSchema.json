@@ -1,445 +1,149 @@
 {
   "type": "object",
-  "required": [
-    "file_name",
-    "incremental",
-    "dates",
-    "current_as_today",
-    "currency",
-    "dafault_timezone"
-  ],
   "properties": {
-    "file_name": {
-      "type": "string",
-      "title": "<h3>Table name</h3>",
-      "description": "Only alphanumeric characters, dash and underscores are allowed.</br>Your data will be extracted to in.c-cnb-extractor.{your table name}",
-      "options": {
-        "inputAttributes": {
-              "placeholder": "your table name"
+    "date_settings": {
+      "title": "Date settings",
+      "type": "object",
+      "properties": {
+        "dates": {
+          "type": "string",
+          "title": "Range of dates",
+          "enum": [
+            "Current day (currently declared rates)",
+            "Current day and yesterday",
+            "Week",
+            "Custom date range"
+          ],
+          "default": "Current day and yesterday",
+          "propertyOrder": 310
+        },
+        "dependent_date_from": {
+          "title": "Date from",
+          "type": "string",
+          "format": "date",
+          "options": {
+            "flatpickr": {},
+            "dependencies": {
+              "dates": "Custom date range"
             }
-      },
-      "propertyOrder": 100
-    },
-    "dates": {
-      "type": "string",
-      "title": "<h3>Range of dates</h3>",
-      "enum": [
-        "Current day (currently declared rates)",
-        "Current day and yesterday",
-        "Week",
-        "Custom date range"
-      ],
-      "default": "Current day and yesterday",
-      "propertyOrder": 200
-    },
-    "dependent_date_from": {
-      "title": "Date from",
-      "type": "string",
-      "format": "date",
-      "options": {
-        "flatpickr": {},
-        "dependencies": {
-          "dates": "Custom date range"
+          },
+          "propertyOrder": 330
+        },
+        "dependent_date_to": {
+          "title": "Date to",
+          "type": "string",
+          "format": "date",
+          "options": {
+            "flatpickr": {},
+            "dependencies": {
+              "dates": "Custom date range"
+            }
+          },
+          "propertyOrder": 340
+        },
+        "current_as_today": {
+          "type": "boolean",
+          "format": "checkbox",
+          "title": "Current rates as today's rates",
+          "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates for current day are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated on the next run.",
+          "default": true,
+          "propertyOrder": 320
         }
       },
-      "propertyOrder": 210
-    },
-    "dependent_date_to": {
-      "title": "Date to",
-      "type": "string",
-      "format": "date",
-      "options": {
-        "flatpickr": {},
-        "dependencies": {
-          "dates": "Custom date range"
-        }
-      },
-      "propertyOrder": 220
-    },
-    "current_as_today": {
-      "type": "boolean",
-      "format": "checkbox",
-      "title": "<h3>Current rates as today's rates</h3>",
-      "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates for current day are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated on the next run.",
-      "default": true,
       "propertyOrder": 300
     },
-        "incremental": {
-      "type": "boolean",
-      "format": "checkbox",
-      "title": "<h3>Incremental load</h3>",
-      "description": "By checking this box newly extracted data will be loaded incrementally to the Storage using the 'date' and 'code' primary key. Please note that if you go later from incremental load to non-incremental your previously downloaded data will be lost!</br>",
-      "default": true,
-      "propertyOrder": 400
-    },
-    "currency": {
-      "title": "<h3>Select currency</h3>",
-      "type": "string",
-      "enum": [
-        "All",
-        "Selected currencies"
+    "currencies": {
+      "title": "Currency settings",
+      "type": "object",
+      "required": [
+        "selected_currencies"
       ],
-      "default": "All",
-      "propertyOrder": 700
-    },
-    "select_curr_AUD": {
-      "title": "Austrálie (dolar)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
+      "properties": {
+        "selected_currencies": {
+          "title": "Currencies selection",
+          "description": "Select the currencies you want to extract.",
+          "type": "array",
+          "format": "select",
+          "items": {
+            "enum": [
+              "AUD",
+              "BRL",
+              "BGN",
+              "CNY",
+              "DKK",
+              "EUR",
+              "PHP",
+              "HKD",
+              "HRK",
+              "INR",
+              "IDR",
+              "ISK",
+              "ILS",
+              "JPY",
+              "ZAR",
+              "CAD",
+              "KRW",
+              "HUF",
+              "MYR",
+              "MXN",
+              "XDR",
+              "NOK",
+              "NZD",
+              "PLN",
+              "RON",
+              "SGD",
+              "SEK",
+              "CHF",
+              "THB",
+              "TRY",
+              "USD",
+              "GBP"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
         }
       },
-      "propertyOrder": 701
+      "propertyOrder": 200
     },
-    "select_curr_BRL": {
-      "title": "Brazílie (real)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
+    "destination": {
+      "title": "Destination",
+      "type": "object",
+      "required": [
+        "file_name",
+        "incremental"
+      ],
+      "properties": {
+        "file_name": {
+          "type": "string",
+          "title": "Table name",
+          "description": "Only alphanumeric characters, dash and underscores are allowed.</br>Your data will be extracted to in.c-cnb-extractor.{your table name}",
+          "options": {
+            "inputAttributes": {
+              "placeholder": "your table name"
+            }
+          }
+        },
+        "incremental": {
+          "enum": [
+            "full_load",
+            "incremental_load"
+          ],
+          "type": "string",
+          "title": "Load Type",
+          "format": "checkbox",
+          "default": "full_load",
+          "options": {
+            "enum_titles": [
+              "Full Load",
+              "Incremental Load"
+            ]
+          },
+          "description": "If Full load is used, the destination table will be overwritten every run. If incremental load is used, data will be imported into the destination table. Tables with a primary key will have rows updated, tables without a primary key will have rows appended."
         }
       },
-      "propertyOrder": 702
-    },
-    "select_curr_BGN": {
-      "title": "Bulharsko (lev)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 703
-    },
-    "select_curr_CNY": {
-      "title": "Čína (žen-min-pi)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 704
-    },
-    "select_curr_DKK": {
-      "title": "Dánsko (koruna)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 705
-    },
-    "select_curr_EUR": {
-      "title": "EMU (euro)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 706
-    },
-    "select_curr_PHP": {
-      "title": "Filipíny (peso)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 707
-    },
-    "select_curr_HKD": {
-      "title": "Hongkong (dolar)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 708
-    },
-    "select_curr_HRK": {
-      "title": "Chorvatsko (kuna)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 709
-    },
-    "select_curr_INR": {
-      "title": "Indie (rupie)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 710
-    },
-    "select_curr_IDR": {
-      "title": "Indonesie (rupie)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 711
-    },
-    "select_curr_ISK": {
-      "title": "Island (koruna)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 712
-    },
-    "select_curr_ILS": {
-      "title": "Izrael (nový šekel)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 713
-    },
-    "select_curr_JPY": {
-      "title": "Japonsko (jen)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 714
-    },
-    "select_curr_ZAR": {
-      "title": "Jižní Afrika (rand)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 715
-    },
-    "select_curr_CAD": {
-      "title": "Kanada (dolar)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 716
-    },
-    "select_curr_KRW": {
-      "title": "Korejská republika (won)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 717
-    },
-    "select_curr_HUF": {
-      "title": "Maďarsko (forint)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 718
-    },
-    "select_curr_MYR": {
-      "title": "Malajsie (ringgit)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 719
-    },
-    "select_curr_MXN": {
-      "title": "Mexiko (peso)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 720
-    },
-    "select_curr_XDR": {
-      "title": "MMF (ZPČ)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 721
-    },
-    "select_curr_NOK": {
-      "title": "Norsko (koruna)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 722
-    },
-    "select_curr_NZD": {
-      "title": "Nový Zéland (dolar)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 723
-    },
-    "select_curr_PLN": {
-      "title": "Polsko (zlotý)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 724
-    },
-    "select_curr_RON": {
-      "title": "Rumunsko (leu)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 725
-    },
-    "select_curr_SGD": {
-      "title": "Singapur (dolar)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 727
-    },
-    "select_curr_SEK": {
-      "title": "Švédsko (koruna)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 728
-    },
-    "select_curr_CHF": {
-      "title": "Švýcarsko (frank)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 729
-    },
-    "select_curr_THB": {
-      "title": "Thajsko (baht)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 730
-    },
-    "select_curr_TRY": {
-      "title": "Turecko (lira)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 731
-    },
-    "select_curr_USD": {
-      "title": "USA (dolar)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 732
-    },
-    "select_curr_GBP": {
-      "title": "Velká Británie (libra)",
-      "type": "boolean",
-      "format": "checkbox",
-      "options": {
-        "dependencies": {
-          "currency": "Selected currencies"
-        }
-      },
-      "propertyOrder": 733
-    },
-    "dafault_timezone": {
-      "title": "<h3>Default timezone</h3>",
-      "type": "string",
-      "template": "Europe/Prague",
-      "description": "</br></br>",
-      "propertyOrder": 800
+      "propertyOrder": 100
     }
   }
 }
