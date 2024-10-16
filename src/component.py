@@ -8,7 +8,9 @@ from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
 
 from client.client import CNBRatesClient, CNBRatesClientException
-from configuration import OldConfiguration, NewConfiguration, ConfigurationException
+from configuration import Configuration, ConfigurationException
+
+DEFAULT_OUTPUT_TABLE_NAME = 'cnb_rates'
 
 
 class Component(ComponentBase):
@@ -17,57 +19,27 @@ class Component(ComponentBase):
         self.client = None
 
     def run(self):
-        logging.info('Running...')
         self.client = CNBRatesClient()
         today: date = datetime.now(pytz.timezone('Europe/Prague')).date()
-        dates_list = []
-        incr: bool = True
-        out: str = ""
 
-        if all(
-            k in self.configuration.parameters for k in ('currencies', 'destination', 'date_settings')
-        ):
-            logging.info('New version of configuration detected. Running new logic...')
+        params = Configuration(**self.configuration.parameters)
+        dates_list = self._run_with_new_config(params, today)
+        incr = True if params.destination.incremental == "incremental_load" else False
+        out = params.destination.file_name or DEFAULT_OUTPUT_TABLE_NAME
+        currencies = params.currencies.selected_currencies
 
-            params = NewConfiguration(**self.configuration.parameters)
-            dates_list = self._run_with_new_config(params, today)
-            incr = True if params.destination.incremental == "incremental_load" else False
-            out = params.destination.file_name
-            currencies = params.currencies.selected_currencies
+        logging.info(f'Currency data: {currencies}')
+        logging.info(f'{len(dates_list)} dates added')
 
-            logging.info(f'Currency data: {currencies}')
-            logging.info(f'{len(dates_list)} dates added')
+        rates = self.client.get_rates(
+            dates_list,
+            today,
+            params.date_settings.current_as_today,
+            currencies
+        )
 
-            rates = self.client.get_rates(
-                dates_list,
-                today,
-                params.date_settings.current_as_today,
-                currencies
-            )
+        logging.info(f'{len(rates)} rates fetched')
 
-            logging.info(f'{len(rates)} rates fetched')
-
-        else:
-            logging.info('Old version of configuration detected. Running old logic...')
-
-            params = OldConfiguration(**self.configuration.parameters)
-            dates_list, currencies = self._run_with_old_config(params, today)
-            incr = params.incremental
-            out = params.file_name
-
-            logging.info(f'Currency data: {currencies}')
-            logging.info(f'{len(dates_list)} dates added')
-
-            rates = self.client.get_rates(
-                dates_list,
-                today,
-                params.current_as_today,
-                currencies
-            )
-
-            logging.info(f'{len(rates)} rates fetched')
-
-        file_header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
 
         table = self.create_out_table_definition(
             name=f"{out}.csv",
@@ -75,17 +47,18 @@ class Component(ComponentBase):
             primary_key=['date', 'code']
         )
 
-        if rates:
-            with open(table.full_path, mode='wt', encoding='utf-8', newline='') as out_file:
-                writer = csv.writer(out_file)
-                writer.writerow(file_header)
-                writer.writerows(rates)
-        else:
-            raise UserException("Data were not fetched!")
+        if not rates:
+            logging.warning('No rates fetched. No output will be generated.')
+
+        file_header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
+        with open(table.full_path, mode='wt', encoding='utf-8', newline='') as out_file:
+            writer = csv.writer(out_file)
+            writer.writerow(file_header)
+            writer.writerows(rates)
 
         self.write_manifest(table)
 
-    def _run_with_new_config(self, params: NewConfiguration, today: date):
+    def _run_with_new_config(self, params: Configuration, today: date):
         dates_list = []
         date_action = self._get_dates_setters.get(params.date_settings.dates)
 
@@ -109,39 +82,6 @@ class Component(ComponentBase):
                 dates_list = date_action(dates_list, today)
 
         return dates_list
-
-    def _run_with_old_config(self, params: OldConfiguration, today: date):
-        dates_list = []
-        currencies = []
-
-        # selection of dates setter based on dates parameter in congif.json
-        date_action = self._get_dates_setters.get(params.dates)
-
-        params_dict = params.model_dump()
-        selected_currencies = {key: value for key, value in params_dict.items() if key.startswith("select_curr")}
-
-        if not date_action:
-            raise UserException(f"No valid date action found for {params.dates}")
-
-        if params.currency == "Selected currencies":
-            currencies = [attr[12:] for attr, value in selected_currencies.items() if value]
-
-        else:
-            currencies = [attr[12:] for attr in selected_currencies.keys()]
-
-        logging.info(f"Params dates: {params.dates}")
-        if date_action:
-            if params.dates == "Custom date range":
-                try:
-                    date_from: date = datetime.strptime(str(params.dependent_date_from), '%Y-%m-%d').date()
-                    date_to: date = datetime.strptime(str(params.dependent_date_to), '%Y-%m-%d').date()
-                    dates_list = date_action(dates_list, today, date_from, date_to)
-                except ValueError:
-                    raise UserException('Dates not specified correctly for custom date range!')
-            else:
-                dates_list = date_action(dates_list, today)
-
-        return dates_list, currencies
 
     # Date setters
     @staticmethod
