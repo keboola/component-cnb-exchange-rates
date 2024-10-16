@@ -49,12 +49,12 @@ class Component(ComponentBase):
 
         if not rates:
             logging.warning('No rates fetched. No output will be generated.')
-
-        file_header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
-        with open(table.full_path, mode='wt', encoding='utf-8', newline='') as out_file:
-            writer = csv.writer(out_file)
-            writer.writerow(file_header)
-            writer.writerows(rates)
+        else:
+            file_header = ['date', 'country', 'currency', 'amount', 'code', 'rate']
+            with open(table.full_path, mode='wt', encoding='utf-8', newline='') as out_file:
+                writer = csv.writer(out_file)
+                writer.writerow(file_header)
+                writer.writerows(rates)
 
         self.write_manifest(table)
 
