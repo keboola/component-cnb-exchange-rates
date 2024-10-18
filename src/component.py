@@ -40,7 +40,6 @@ class Component(ComponentBase):
 
         logging.info(f'{len(rates)} rates fetched')
 
-
         table = self.create_out_table_definition(
             name=f"{out}.csv",
             incremental=incr,
