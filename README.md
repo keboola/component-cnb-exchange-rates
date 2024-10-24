@@ -1,16 +1,11 @@
 CNB exchange rates Extractor
 =============
 
-This component was built to extract the exchange rates from [CNB](www.cnb.cz) right to Keboola storage. It was developed using the [KBC template](https://bitbucket.org/kds_consulting_team/kbc-python-template/src/master/) provided kindly by the KDS team.
+This extractor allows you to download the exchange rates from the Czech National Blank.
 
-It lets the user specify date ranges in the component UI and then it basically just access endpoint and extracts the exchange rates for specified dates. User can also select only specific currencies to be downloaded.
+Exchange rates of commonly traded currencies are declared every working day after 2.30 p.m. (Europe/Prague timezone) and are valid for the current working day and, where relevant, the following Saturday, Sunday or public holiday. For example, an exchange rate declared on Tuesday 23 December is valid for Tuesday 23 December, the public holidays 24–26 December, and Saturday 27 December and Sunday 28 December.
 
-Default timezone: Europe/Prague
-
-Prerequisites
-=============
-
-Get the API token, register application, etc.
+More information can be found on the official websites: [www.cnb.cz](https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/)
 
 Features
 ========
