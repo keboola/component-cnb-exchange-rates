@@ -1,1 +1,1 @@
-Extractor for ČNB exchange rates.
+Extractor for Czech National Bank exchange rates.
