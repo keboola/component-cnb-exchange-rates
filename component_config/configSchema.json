@@ -45,7 +45,7 @@
           "type": "boolean",
           "format": "checkbox",
           "title": "Current rates as today's rates",
-          "description": "By checking this box actual exchange rates will be considered as exchange rates for the current day (Exchange rates for current day are declared every working day after 2.30 p.m. CET). Please use this option together with incremental load so the current rates can be updated on the next run.",
+          "description": "By checking this box, the actual exchange rates will be considered as the exchange rates for the current day (exchange rates for the current day are published every working day after 2:30 p.m. CET). Please use this option in combination with incremental loading so that the current rates can be updated on the next run.",
           "default": true,
           "propertyOrder": 320
         }
@@ -118,7 +118,7 @@
         "file_name": {
           "type": "string",
           "title": "Table name",
-          "description": "Only alphanumeric characters, dash and underscores are allowed.</br>Your data will be extracted to in.c-cnb-extractor.{your table name}",
+          "description": "Only alphanumeric characters, dashes, and underscores are allowed.</br>Your data will be extracted to in.c-cnb-extractor.{your table name}.",
           "options": {
             "inputAttributes": {
               "placeholder": "your table name"
@@ -140,7 +140,7 @@
               "Incremental Load"
             ]
           },
-          "description": "If Full load is used, the destination table will be overwritten every run. If incremental load is used, data will be imported into the destination table. Tables with a primary key will have rows updated, tables without a primary key will have rows appended."
+          "description": "If a full load is used, the destination table will be overwritten with each run. If an incremental load is used, data will be imported into the destination table. For tables with a primary key, rows will be updated; for tables without a primary key, rows will be appended."
         }
       },
       "propertyOrder": 100
