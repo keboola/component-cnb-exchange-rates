@@ -1,29 +1,34 @@
-CNB exchange rates Extractor
+CNB Exchange Rates Extractor
 =============
 
-This extractor allows you to download the exchange rates from the Czech National Blank.
+This extractor enables you to download exchange rates from the Czech National Bank (CNB).
 
-Exchange rates of commonly traded currencies are declared every working day after 2.30 p.m. (Europe/Prague timezone) and are valid for the current working day and, where relevant, the following Saturday, Sunday or public holiday. For example, an exchange rate declared on Tuesday 23 December is valid for Tuesday 23 December, the public holidays 24–26 December, and Saturday 27 December and Sunday 28 December.
+Exchange rates for commonly traded currencies are published every working day after 2:30 p.m. (Europe/Prague timezone) 
+and are valid for the current working day. Where relevant, they also apply to the following Saturday, Sunday, or public holiday. 
 
-More information can be found on the official websites: [www.cnb.cz](https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/)
+For example, an exchange rate declared on Tuesday, December 23, is valid for Tuesday, December 23; the public holidays on December 24–26; 
+and Saturday, December 27, and Sunday, December 28.
+
+Find more information on CNB's official website: [www.cnb.cz](https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/)
 
 Features
 ========
 
 | **Feature**             | **Note**                                      |
 |-------------------------|-----------------------------------------------|
-| Incremental loading     | Allows fetching data in new increments.       |
-| Date range filter       | Specify date range.                           |
+| Incremental loading     | Allow fetching data in new increments.       |
+| Date range filter       | Specify a date range.                           |
 
-Supported endpoints
+Supported Endpoints
 ===================
-- [cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt](https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt)
 
-If you need more endpoints, please submit your request to
-[ideas.keboola.com](https://ideas.keboola.com/)
+These are the endpoints that Keboola supports: [cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt](https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt)
+
+If you need additional endpoints, please submit your request to [ideas.keboola.com](https://ideas.keboola.com/).
 
 Configuration
 =============
+[Create a new configuration](https://help.keboola.com/components/#creating-component-configuration) of the CNB Exchange Rates connector.
 
 Dates
 -------
@@ -31,17 +36,17 @@ You can specify the time period for rates extraction.
 
 Currencies
 -------
-In the UI is prepared selector for currencies.
+The UI includes a currency selector.
 
 Output
 ======
 
-List of tables, foreign keys, schema.
+Provides tables, foreign keys, and schema information.
 
 Development
 -----------
 
-If required, change local data folder (the `CUSTOM_FOLDER` placeholder) path to
+If required, change the local data folder path (the `CUSTOM_FOLDER` placeholder) to
 your custom path in the `docker-compose.yml` file:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -50,8 +55,8 @@ your custom path in the `docker-compose.yml` file:
       - ./CUSTOM_FOLDER:/data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Clone this repository, init the workspace and run the component with following
-command:
+Clone this repository, initialize the workspace, and run the connector with the following
+commands:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 git clone {{ cookiecutter.repository_url }} {{ cookiecutter. repository_folder_name }}
@@ -60,7 +65,7 @@ docker-compose build
 docker-compose run --rm dev
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Run the test suite and lint check using this command:
+Run the test suite and lint checks using this command:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 docker-compose run --rm test
@@ -69,6 +74,6 @@ docker-compose run --rm test
 Integration
 ===========
 
-For information about deployment and integration with KBC, please refer to the
-[deployment section of developers
+For information about deployment and integration with Keboola, please refer to the
+[deployment section of the developers'
 documentation](https://developers.keboola.com/extend/component/deployment/)
