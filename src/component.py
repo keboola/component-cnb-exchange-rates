@@ -55,7 +55,7 @@ class Component(ComponentBase):
                 writer.writerow(file_header)
                 writer.writerows(rates)
 
-        self.write_manifest(table)
+            self.write_manifest(table)
 
     def _run_with_new_config(self, params: Configuration, today: date):
         dates_list = []
