@@ -1,1 +1,1 @@
-The Czech National Bank publishes currency exchange rates for every working day.
+Extracts Czech National Bank daily currency exchange rates.
